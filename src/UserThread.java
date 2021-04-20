@@ -37,9 +37,16 @@ public class UserThread extends Thread {
                 serverMessage = "[" + userName + "]: " + clientMessage;
                 server.broadcast(serverMessage, this);
             } while (true);
- 
+             
         } catch (IOException ex) {
+        	try {
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	ex.printStackTrace();
+        	
         }
     }
     void sendMessage(String message) {

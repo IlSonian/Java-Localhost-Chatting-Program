@@ -3,7 +3,8 @@ import java.net.*;
 import java.util.*;
  
 public class ChatServer {
-    private int port;
+   
+	private int port;
     private Set<String> userNames = new HashSet<>();
     private Set<UserThread> userThreads = new HashSet<>();
     private ArrayList<Users> userData = new ArrayList<Users>();
@@ -56,9 +57,11 @@ public class ChatServer {
         	String[] splited = meee.split("\\s+");
         	String c = "";
         	String[] userGroup = new String[count];
+        	String d = "";
         	for (int ii = 0; ii < splited.length; ii++) {
         		if (splited[ii].indexOf("@") != -1)  {
         			 userGroup[ii] =  splited[ii].replace("@", "");
+        			 d += "["+ userGroup[ii] + "] ";
         		} else {
         		   c += splited[ii] + " ";
         		}
@@ -66,11 +69,9 @@ public class ChatServer {
         	 for (UserThread user : userThreads) {
               for (int ii = 0; ii < userGroup.length; ii++)
         		 if (user.getUsername().equals(userGroup[ii])) {
-        			 user.sendMessage(whosent + ": "+c);
-                 }
-                 
+        			 user.sendMessage(whosent + " -> "  + d+": "+c);
+                 }                
                }
-        	
         }
         
         if (privateConverse) {       
@@ -88,8 +89,7 @@ public class ChatServer {
                   }
               }
          }
-        }
-               
+        }           
         //broadcast to the entire server and whoever connected to the server.
         if (!privateConverse && !groupconversation)
         for (UserThread user : userThreads) {
