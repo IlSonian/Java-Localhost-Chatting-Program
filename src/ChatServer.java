@@ -1,5 +1,7 @@
 import java.io.*;
 import java.net.*;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;  
 import java.util.*;
  
 public class ChatServer {
@@ -8,15 +10,18 @@ public class ChatServer {
     private Set<String> userNames = new HashSet<>();
     private Set<UserThread> userThreads = new HashSet<>();
     private ArrayList<Users> userData = new ArrayList<Users>();
-    
+
+
     public ChatServer(int port) {
         this.port = port;
     }
     
     public static void main(String[] args) {
+
         int port = 8989;
         ChatServer server = new ChatServer(port);
         server.execute();
+        
     }
  
     public void execute() {
@@ -39,6 +44,11 @@ public class ChatServer {
     void broadcast(String message, UserThread excludeUser) {
         boolean privateConverse = false;
         boolean groupconversation = false;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+        LocalDateTime now = LocalDateTime.now();  
+        
+		String time = dtf.format(now);
+
         int count = 0;
         for (int i = 0; i < message.length(); i++) {
             if (message.charAt(i) == '@') {
@@ -69,7 +79,7 @@ public class ChatServer {
         	 for (UserThread user : userThreads) {
               for (int ii = 0; ii < userGroup.length; ii++)
         		 if (user.getUsername().equals(userGroup[ii])) {
-        			 user.sendMessage(whosent + " -> "  + d+": "+c);
+        			 user.sendMessage(time+" "+whosent + " -> "  + d+": "+c);
                  }                
                }
         }
@@ -85,7 +95,7 @@ public class ChatServer {
                 	  for (int ii = 1; ii < splited.length; ii++) {
                 		  c += splited[ii] + " ";
                 	  }
-                      user.sendMessage(whosent + ": "+c);
+                      user.sendMessage(time+" "+whosent + ": "+c);
                   }
               }
          }
@@ -94,7 +104,7 @@ public class ChatServer {
         if (!privateConverse && !groupconversation)
         for (UserThread user : userThreads) {
             if (user != excludeUser) {
-                user.sendMessage(message);
+                user.sendMessage(time+" "+message);
             }
         }
     }
