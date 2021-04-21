@@ -10,6 +10,8 @@ public class ChatServer {
     private Set<String> userNames = new HashSet<>();
     private Set<UserThread> userThreads = new HashSet<>();
     private ArrayList<Users> userData = new ArrayList<Users>();
+    private ArrayList<Group> group = new ArrayList<Group>();
+    private ArrayList<UserDMList> userDmList = new ArrayList<UserDMList>();
 
 
     public ChatServer(int port) {
@@ -39,6 +41,28 @@ public class ChatServer {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    void createGroup(String sender, String[] arr) {
+    	ArrayList<String> groupMemberUsername = new ArrayList<String>();
+    	groupMemberUsername.add(sender);
+    	for (int i =0; i < arr.length; i++) {
+    		groupMemberUsername.add(arr[i]);
+    	}
+    	group.add(new Group("Group"+(group.size()+1), groupMemberUsername));
+    }
+    
+    void createDM(String sender, String toReceive) {
+    	userDmList.add(new UserDMList(sender,toReceive));
+    }
+    
+    void removeConversation(String sender, String userNameToRemove) {
+    	for (int i = 0; i < userDmList.size(); i++) {
+    			 if (userDmList.get(i).getSenderName().equals(sender)) {
+    				 userDmList.get(i).removeDmToList(userNameToRemove);
+    			 }
+
+    	}
     }
  
     void broadcast(String message, UserThread excludeUser) {
