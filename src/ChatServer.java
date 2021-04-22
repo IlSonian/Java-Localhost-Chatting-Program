@@ -75,7 +75,8 @@ public class ChatServer {
     
     boolean checkUserNameAndPassword(String username, String password) {
     	for (int i = 0; i < userData.size(); i++) {
-    		if (username.equals(userData.get(i).getPsswd()) && username.equals(userData.get(i).getUsername()) ) {
+            
+    		if (username.equals(userData.get(i).getUsername()) && password.equals(userData.get(i).getPsswd()) ) {
     			return true;
     		}
     		
@@ -84,6 +85,13 @@ public class ChatServer {
     	return false;
     }
     
+    void wrongPass(String message, UserThread excludeUser) {
+    	   for (UserThread user : userThreads) {
+               if (user == excludeUser) {
+                   user.sendMessage("!"+message);
+               }
+           }
+    }
  
     void broadcast(String message, UserThread excludeUser) {
         boolean privateConverse = false;

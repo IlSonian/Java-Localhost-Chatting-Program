@@ -27,16 +27,21 @@ public class UserThread extends Thread {
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
  
+            do {
             userNameAndPassword = reader.readLine();
             String[] splited = userNameAndPassword.split("\\s+");
             
             up = splited[0];
             userName = splited[1];
             password = splited[2];
+             if (up.equals("in") && !server.checkUserNameAndPassword(userName, password))
+             server.wrongPass("Wrong pass", this);
+             
+            } while (up.equals("in") && !server.checkUserNameAndPassword(userName, password)); 
+            	
+            	
             
-            if (up.equals("in") && server.checkUserNameAndPassword(userName, password)) {
-            	socket.close();
-            } else {
+            if(up.equals("up") ) {
             	server.signUp(userName, password);
             }
             
@@ -54,12 +59,7 @@ public class UserThread extends Thread {
             } while (true);
              
         } catch (IOException ex) {
-        	try {
-				socket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	this.stop();
         	ex.printStackTrace();
         	
         }
