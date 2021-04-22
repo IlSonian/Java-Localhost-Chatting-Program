@@ -7,6 +7,9 @@ public class UserThread extends Thread {
     private ChatServer server;
     private PrintWriter writer;
     String userName;
+    String userNameAndPassword;
+    String password;
+    String up;
     public UserThread(Socket socket, ChatServer server) {
         this.socket = socket;
         this.server = server;
@@ -23,8 +26,20 @@ public class UserThread extends Thread {
  
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
-
-            userName = reader.readLine();
+ 
+            userNameAndPassword = reader.readLine();
+            String[] splited = userNameAndPassword.split("\\s+");
+            
+            up = splited[0];
+            userName = splited[1];
+            password = splited[2];
+            
+            if (up.equals("in") && server.checkUserNameAndPassword(userName, password)) {
+            	socket.close();
+            } else {
+            	server.signUp(userName, password);
+            }
+            
             server.addUserName(userName);
  
             String serverMessage = "New user connected: " + userName;

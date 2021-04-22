@@ -17,8 +17,6 @@ public class Users {
 		  
 	  }
 	  
-	  
-	  
 	  public String getUsername() {
 		  return username;
 	  }
@@ -28,7 +26,7 @@ public class Users {
 	  }
 	  
 	  public void writeDataTofile() {	  
-
+// sombody try to finish writting data to file please
 		      try (PrintWriter writer = new PrintWriter(new File("data.csv"))) {
 
 		        StringBuilder sb = new StringBuilder();
@@ -49,5 +47,6 @@ public class Users {
 	
 	
 	  }
+
       
 }

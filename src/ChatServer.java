@@ -25,7 +25,15 @@ public class ChatServer {
         server.execute();
         
     }
+    
+    void loadUserData() {
+    	// read the cvs file and add new users to the userData stuff
+    }
  
+    void signUp(String username, String password) {
+    	userData.add(new Users(username, password));
+    }
+    
     public void execute() {
         try  {
         	@SuppressWarnings("resource")
@@ -64,6 +72,18 @@ public class ChatServer {
 
     	}
     }
+    
+    boolean checkUserNameAndPassword(String username, String password) {
+    	for (int i = 0; i < userData.size(); i++) {
+    		if (username.equals(userData.get(i).getPsswd()) && username.equals(userData.get(i).getUsername()) ) {
+    			return true;
+    		}
+    		
+    	}
+    	
+    	return false;
+    }
+    
  
     void broadcast(String message, UserThread excludeUser) {
         boolean privateConverse = false;
@@ -132,8 +152,14 @@ public class ChatServer {
             }
         }
     }
-    void addUserName(String userName) {
+    boolean addUserName(String userName) {
+    	for (String one : userNames) {
+    	    if (one.equals(userName)) {
+    	      return false;
+    	    }
+    	  } 
         userNames.add(userName);
+        return true;
     }
 
 }
