@@ -108,7 +108,7 @@ public class Login extends JFrame {
         btn_signup.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 //creating object of signup class
-                Signup obj = new Signup();
+                Signup obj = new Signup(socket);
                 obj.setVisible(true);
 
                 //close current gui

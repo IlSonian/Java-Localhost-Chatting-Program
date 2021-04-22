@@ -14,6 +14,11 @@ import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 
 public class Signup extends JFrame {
@@ -26,12 +31,12 @@ public class Signup extends JFrame {
 
     //password field for user passoword
     private JPasswordField txt_password;
-
+    JButton btn_signup;
 
     // constructor of class that will be called while making object of class
-
-    public Signup() {
-
+    Socket socket;
+    public Signup(Socket socket) {
+        this.socket = socket;
         // Action of end GUI
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 743, 446);
@@ -84,16 +89,8 @@ public class Signup extends JFrame {
         txt_username.setColumns(10);
 
         // Action of signup button
-        JButton btn_signup = new JButton("SIGN UP");
-        btn_signup.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                //goto login page after sign up
-                Login obj = new Login();
-                obj.setVisible(true);
-                //close current gui
-                dispose();
-            }
-        });
+        btn_signup = new JButton("SIGN UP");
+        btn_signup.addActionListener(actionListener);
 
         //setting x,y axis and height and width of button
         btn_signup.setBounds(182, 152, 106, 33);
@@ -106,4 +103,36 @@ public class Signup extends JFrame {
         //adding password field to panel
         panel.add(txt_password);
     }
+    
+	ActionListener actionListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if (e.getSource() == btn_signup) {
+				signUp();
+	             Messagelist obj = new Messagelist();
+	             obj.setVisible(true);
+	             //close current gui
+	             dispose();
+                //creating object of messagelist class
+			}
+		}
+	};
+    
+    
+    public void signUp() {
+    	try {			
+			OutputStream output = socket.getOutputStream();
+			PrintWriter writer = new PrintWriter(output, true);
+			writer.println("up " + txt_username.getText() + " " + String.valueOf(txt_password.getPassword()));
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    
+    
 }
