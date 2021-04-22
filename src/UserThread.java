@@ -39,7 +39,9 @@ public class UserThread extends Thread {
              
             } while (up.equals("in") && !server.checkUserNameAndPassword(userName, password)); 
             	
-            	
+            if(server.checkUserNameAndPassword(userName, password)) {
+            	server.correctPass("Correct pass", this);   
+             }
             
             if(up.equals("up") ) {
             	server.signUp(userName, password);

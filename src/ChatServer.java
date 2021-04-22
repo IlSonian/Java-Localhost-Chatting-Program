@@ -92,6 +92,14 @@ public class ChatServer {
                }
            }
     }
+    
+    void correctPass(String message, UserThread excludeUser) {
+    	   for (UserThread user : userThreads) {
+               if (user == excludeUser) {
+                   user.sendMessage("$"+message);
+               }
+           }
+    }
  
     void broadcast(String message, UserThread excludeUser) {
         boolean privateConverse = false;
