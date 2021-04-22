@@ -14,6 +14,14 @@ import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
@@ -26,13 +34,24 @@ public class Login extends JFrame {
 
     //password field for user password
     private JPasswordField txt_password;
-
-
+    JButton btn_login;
+    Socket socket;
+    static boolean in = false;
     //main method to run the gui as thread
 
     public Login() {
 
         // Action of end GUI
+    	try {
+			socket =  new Socket("localhost", 8989);
+			new ListenServer(socket, this).start();
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         setBounds(100, 100, 743, 446);
@@ -102,17 +121,8 @@ public class Login extends JFrame {
         panel.add(btn_signup);
 
         //Action of Login button
-        JButton btn_login = new JButton("LOGIN");
-        btn_login.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                //creating object of messagelist class
-                Messagelist obj = new Messagelist();
-                obj.setVisible(true);
-                //close current gui
-                dispose();
-            }
-        });
+        btn_login = new JButton("LOGIN");
+        btn_login.addActionListener(actionListener);
 
         //setting x,y axis and height and width of button
         btn_login.setBounds(128, 152, 91, 33);
@@ -127,6 +137,42 @@ public class Login extends JFrame {
         //adding password field to panel
         panel.add(txt_password);
     }
+    
+	ActionListener actionListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if (e.getSource() == btn_login) {
+			 	verifyServer();
+                //creating object of messagelist class
+			 	if(in) {
+                Messagelist obj = new Messagelist();
+                obj.setVisible(true);
+                //close current gui
+                dispose();
+			 	}
+			}
+		}
+	};
+    
+	
+	static void logintrue(boolean login) {
+		in = login;
+	}
+	
+    void verifyServer() {
+    	try {			
+			OutputStream output = socket.getOutputStream();
+			PrintWriter writer = new PrintWriter(output, true);
+			writer.println("in " + txt_username.getText() + " " + String.valueOf(txt_password.getPassword()));
+            System.out.println(in);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 
 
     // constructor of class that will be called while making object of class
@@ -137,6 +183,7 @@ public class Login extends JFrame {
             public void run() {
                 try {
                     //	make object of Login class
+                	
                     Login frame = new Login();
                     frame.setVisible(true);
                 } catch (Exception e) {
