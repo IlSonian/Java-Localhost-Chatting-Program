@@ -39,6 +39,7 @@ public class Chat extends JFrame {
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
+        setLocationRelativeTo(null);
         contentPane.setLayout(null);
 
         //create titled panel for data
