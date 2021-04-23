@@ -32,6 +32,7 @@ public class Signup extends JFrame {
     //password field for user passoword
     private JPasswordField txt_password;
     JButton btn_signup;
+    JButton btn_login;
 
     // constructor of class that will be called while making object of class
     Socket socket;
@@ -91,11 +92,22 @@ public class Signup extends JFrame {
         // Action of signup button
         btn_signup = new JButton("SIGN UP");
         btn_signup.addActionListener(actionListener);
-
         //setting x,y axis and height and width of button
-        btn_signup.setBounds(182, 152, 106, 33);
+        btn_signup.setBounds(246, 152, 106, 33);
         panel.add(btn_signup);
+  
 
+        
+        // Action of signup button
+        btn_login = new JButton("LOGIN");
+        btn_login.addActionListener(actionListener);
+        //setting x,y axis and height and width of button
+        btn_login.setBounds(128, 152, 91, 33);
+        panel.add(btn_login);
+        
+
+        
+        
         //password textfield for user input password
         txt_password = new JPasswordField();
         txt_password.setBounds(128, 92, 224, 27);
@@ -112,6 +124,14 @@ public class Signup extends JFrame {
 			if (e.getSource() == btn_signup) {
 				signUp();
 	             Messagelist obj = new Messagelist();
+	             obj.setVisible(true);
+	             //close current gui
+	             dispose();
+                //creating object of messagelist class
+			}
+			if (e.getSource() == btn_login) {
+			 
+				 Login obj = new Login();
 	             obj.setVisible(true);
 	             //close current gui
 	             dispose();
