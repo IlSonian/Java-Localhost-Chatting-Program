@@ -24,7 +24,7 @@ public class Chat extends JFrame {
 
     //text field to type message that to send
     private JTextField messagetext;
-
+    String[] array;
 
     //constructor of class containing gui code
     public Chat() {
@@ -106,7 +106,7 @@ public class Chat extends JFrame {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //creating object of Messagelist class
-                Messagelist obj = new Messagelist();
+                Messagelist obj = new Messagelist(Login.array);
                 obj.setVisible(true);
                 //close current gui
                 dispose();

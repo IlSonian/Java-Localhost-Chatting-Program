@@ -38,7 +38,7 @@ public class Login extends JFrame {
     Socket socket;
     static boolean in = false;
     //main method to run the gui as thread
-
+    public static String[] array;
     public Login() {
 
         // Action of end GUI
@@ -147,7 +147,7 @@ public class Login extends JFrame {
 			 	verifyServer();
                 //creating object of messagelist class
 			 	if(in) {
-                Messagelist obj = new Messagelist();
+                Messagelist obj = new Messagelist(array);
                 obj.setVisible(true);
                 //close current gui
                 dispose();
@@ -156,7 +156,17 @@ public class Login extends JFrame {
 		}
 	};
     
-	
+    static void importUserfromServer(String totalUser) {
+        // adding dummy data to list
+    	totalUser = totalUser.replace("[","");
+    	totalUser = totalUser.replace("]","");
+    	System.out.println();
+    	array = totalUser.split(",");
+        for (int i = 0; i < array.length; i++) {
+        	array[i].trim();
+        }
+    }
+    
 	static void logintrue(boolean login) {
 		in = login;
 	}

@@ -33,7 +33,7 @@ public class Signup extends JFrame {
     private JPasswordField txt_password;
     JButton btn_signup;
     JButton btn_login;
-
+    static String[] array;
     // constructor of class that will be called while making object of class
     Socket socket;
     public Signup(Socket socket) {
@@ -123,7 +123,14 @@ public class Signup extends JFrame {
 
 			if (e.getSource() == btn_signup) {
 				signUp();
-	             Messagelist obj = new Messagelist();
+				
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+	             Messagelist obj = new Messagelist(array);
 	             obj.setVisible(true);
 	             //close current gui
 	             dispose();
@@ -139,7 +146,17 @@ public class Signup extends JFrame {
 			}
 		}
 	};
-    
+   
+	static void importUserfromServer(String totalUser) {
+        // adding dummy data to list
+    	totalUser = totalUser.replace("[","");
+    	totalUser = totalUser.replace("]","");
+    	System.out.println();
+    	array = totalUser.split(",");
+        for (int i = 0; i < array.length; i++) {
+        	array[i].trim();
+        }
+    }
     
     public void signUp() {
     	try {			

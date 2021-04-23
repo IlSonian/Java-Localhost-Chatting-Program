@@ -31,11 +31,17 @@ public class ListenServer extends Thread{
 	                	System.out.println("Wrong password");
 	                	Login.logintrue(false);
 	                }
-	                else {
+	                else if (td.equals("$")){
 	                	Login.logintrue(true);
 	                	System.out.println("Correct password");
-	                    System.out.println("\n" + response);
+	                	Login.importUserfromServer(response.substring(response.indexOf("#")+1));
+	                    System.out.println("\n" + response);     
 	               }
+	                else if (td.equals("#")) {
+	                	Signup.importUserfromServer(response.substring(response.indexOf("#")+1));
+	                	Login.importUserfromServer(response.substring(response.indexOf("#")+1));
+	                    System.out.println("\n" + response); 
+	                }
 	            } catch (IOException ex) {
 	                ex.printStackTrace();
 	                break;

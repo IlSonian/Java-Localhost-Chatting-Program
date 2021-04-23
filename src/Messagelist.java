@@ -24,10 +24,11 @@ public class Messagelist extends JFrame {
 
     // background pane
     private JPanel contentPane;
-
+    JPanel panel;
+    static JList userlist;
 
     // constructor of class
-    public Messagelist() {
+    public Messagelist(String[]  array) {
 
         // on close action
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,7 +45,7 @@ public class Messagelist extends JFrame {
 
 
         // creating title panel
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Users", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         //setting x,y axis and width and height of panel
         panel.setBounds(243, 29, 206, 230);
@@ -54,12 +55,9 @@ public class Messagelist extends JFrame {
         panel.setLayout(null);
 
         // creating list that will contain all users
-        JList userlist = new JList();
-        userlist.setFont(new Font("Tahoma", Font.PLAIN, 12));
-
-        // adding dummy data to list
+        userlist = new JList();
         userlist.setModel(new AbstractListModel() {
-            String[] values = new String[]{"John", "Elizbath", "Jonathan"};
+            String[] values = array;
 
             public int getSize() {
                 return values.length;
@@ -69,6 +67,9 @@ public class Messagelist extends JFrame {
                 return values[index];
             }
         });
+        userlist.setFont(new Font("Tahoma", Font.PLAIN, 12));
+
+
 
         //setting x,y axis and width and height of list
         userlist.setBounds(10, 47, 186, 173);
@@ -127,6 +128,5 @@ public class Messagelist extends JFrame {
         });
         btnLogout.setBounds(623, 10, 96, 33);
         contentPane.add(btnLogout);
-
     }
 }

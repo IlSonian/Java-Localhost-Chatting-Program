@@ -20,7 +20,7 @@ public class Account extends JFrame {
 
     // main background pane
     private JPanel contentPane;
-
+    String[] array ;
 
     // constructor of class to run GUI
 
@@ -64,7 +64,7 @@ public class Account extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
 
                 // creating object of class to change GUI
-                Messagelist obj = new Messagelist();
+                Messagelist obj = new Messagelist(Login.array);
                 obj.setVisible(true);
 
                 //close currrent GUi
