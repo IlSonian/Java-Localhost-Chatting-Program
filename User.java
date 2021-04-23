@@ -100,9 +100,9 @@ public class User {
             String conversationName = data.get(1);
             conversationName = conversationName.substring(conversationName.indexOf(':' + 2));
 
-            //TODO: create users from usernames received from the data file
+            //TODO: Need Server to locate the group chat from its list and add it to user's conversation list
 
-            //TODO: create 
+            //TODO: Use Data list to update the chat history of the group chat
 
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null,
