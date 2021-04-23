@@ -41,17 +41,21 @@ public class UserThread extends Thread {
             	
             if(server.checkUserNameAndPassword(userName, password)) {
             	server.correctPass("Correct pass", this);   
+                String serverMessage = "#" + server.getUserNames();
+                server.giveListOfUsers(serverMessage, this);
              }
             
             if(up.equals("up") ) {
             	server.signUp(userName, password);
+                String serverMessage = "#" + server.getUserNames();
+                server.giveListOfUsers(serverMessage, this);
             }
             
             server.addUserName(userName);
- 
-            String serverMessage = "New user connected: " + userName;
-            server.broadcast(serverMessage, this);
- 
+            String serverMessage = userName;
+            //server.broadcast(serverMessage, this);
+
+            
             String clientMessage;
  
             do {

@@ -85,6 +85,14 @@ public class ChatServer {
     	return false;
     }
     
+    void giveListOfUsers(String message, UserThread excludeUser) {
+ 	   for (UserThread user : userThreads) {
+           if (user == excludeUser) {
+               user.sendMessage(message);
+           }
+       }
+    }
+    
     void wrongPass(String message, UserThread excludeUser) {
     	   for (UserThread user : userThreads) {
                if (user == excludeUser) {
@@ -168,6 +176,15 @@ public class ChatServer {
             }
         }
     }
+    
+    
+    
+    
+    Set<String> getUserNames() {
+        return this.userNames;
+    }
+    
+    
     boolean addUserName(String userName) {
     	for (String one : userNames) {
     	    if (one.equals(userName)) {
