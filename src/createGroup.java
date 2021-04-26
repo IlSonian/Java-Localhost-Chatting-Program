@@ -58,18 +58,8 @@ public class createGroup extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
 
-        allUsers = new JList();
-        allUsers.setModel(new AbstractListModel() {
-            String[] values = array;
-
-            public int getSize() {
-                return values.length;
-            }
-
-            public Object getElementAt(int index) {
-                return values[index];
-            }
-        });
+        allUsers = new JList(ReceiverFromUser.getAllUsers());
+  
 
         allUsers.setFont(new Font("Tahoma", Font.BOLD, 12));
 
