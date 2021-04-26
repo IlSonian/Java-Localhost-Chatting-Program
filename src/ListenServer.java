@@ -44,10 +44,10 @@ public class ListenServer extends Thread{
 	                String td = response.substring(0,1);
 	                if (td.equals("!")) {
 	                	System.out.println("Wrong password");
-	                	Login.logintrue(false);
+	                	Login.in = (false);
 	                }
 	                else if (td.equals("$")){
-	                	Login.logintrue(true);
+	                	Login.in =(true);
 	                	System.out.println("Correct password");
 	                	ReceiverFromUser.importUserfromServer(response.substring(response.indexOf("#")+1));
 	                    System.out.println("\n" + response);     

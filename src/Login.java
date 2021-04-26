@@ -45,6 +45,12 @@ public class Login extends JFrame {
             if (e.getSource() == btn_login) {
                 verifyServer();
                 //creating object of messagelist class
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
                 if (in) {
                     Messagelist obj = new Messagelist();
                     obj.setVisible(true);
@@ -165,11 +171,6 @@ public class Login extends JFrame {
             array[i].trim();
         }
     }
-
-    static void logintrue(boolean login) {
-        in = login;
-    }
-
     public static void main(String[] args) {
         //thread
         EventQueue.invokeLater(new Runnable() {
