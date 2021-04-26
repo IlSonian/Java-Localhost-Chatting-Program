@@ -52,8 +52,8 @@ public class UserThread extends Thread {
             }
             
             server.addUserName(userName);
-            String serverMessage = userName;
-            //server.broadcast(serverMessage, this);
+            String serverMessage = "#" + server.getUserNames();
+            server.giveListOfUsers2(serverMessage, this);
 
             
             String clientMessage;
@@ -61,6 +61,8 @@ public class UserThread extends Thread {
             do {
                 clientMessage = reader.readLine();
                 serverMessage = "[" + userName + "]: " + clientMessage;
+     
+                
                 server.broadcast(serverMessage, this);
             } while (true);
              
@@ -70,6 +72,8 @@ public class UserThread extends Thread {
         	
         }
     }
+    
+    
     void sendMessage(String message) {
         writer.println(message);
     }

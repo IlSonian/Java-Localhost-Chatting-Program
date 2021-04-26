@@ -4,8 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 public class Users {
       
-	  ArrayList<String> group = new ArrayList<String>();
-	  
+      private ArrayList<Group> group = new ArrayList<Group>();
+	 
+      Group grouppy;
+      
 	  private String username;
 	  private String psswd;
 	  public Users(String username, String psswd) {
@@ -15,6 +17,14 @@ public class Users {
       }
 	  public Users() {
 		  
+	  }
+	  
+	  public Group getUserGroup() {
+		  return grouppy;
+	  }
+	  
+	  public void setUserGroup(Group grouppy) {
+		  this.grouppy = grouppy;
 	  }
 	  
 	  public String getUsername() {

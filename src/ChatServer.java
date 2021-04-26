@@ -57,6 +57,7 @@ public class ChatServer {
     	for (int i =0; i < arr.length; i++) {
     		groupMemberUsername.add(arr[i]);
     	}
+    	
     	group.add(new Group("Group"+(group.size()+1), groupMemberUsername));
     }
     
@@ -85,6 +86,14 @@ public class ChatServer {
     	return false;
     }
     
+    void giveListOfUsers2(String message, UserThread excludeUser) {
+  	   for (UserThread user : userThreads) {
+            if (user != excludeUser) {
+                user.sendMessage(message);
+            }
+        }
+     }
+    
     void giveListOfUsers(String message, UserThread excludeUser) {
  	   for (UserThread user : userThreads) {
            if (user == excludeUser) {
@@ -108,6 +117,8 @@ public class ChatServer {
                }
            }
     }
+    
+    
  
     void broadcast(String message, UserThread excludeUser) {
         boolean privateConverse = false;
@@ -144,6 +155,7 @@ public class ChatServer {
         		   c += splited[ii] + " ";
         		}
         	}
+        	createGroup(whosent, userGroup);
         	 for (UserThread user : userThreads) {
               for (int ii = 0; ii < userGroup.length; ii++)
         		 if (user.getUsername().equals(userGroup[ii])) {
