@@ -55,7 +55,7 @@ public class UserThread extends Thread {
             String serverMessage = "#" + server.getUserNames();
             server.giveListOfUsers2(serverMessage, this);
 
-            
+      
             String clientMessage;
  
             do {

@@ -59,6 +59,7 @@ public class ChatServer {
     	}
     	
     	group.add(new Group("Group"+(group.size()+1), groupMemberUsername));
+    	
     }
     
     void createDM(String sender, String toReceive) {
@@ -98,8 +99,11 @@ public class ChatServer {
  	   for (UserThread user : userThreads) {
            if (user == excludeUser) {
                user.sendMessage(message);
+            
            }
+             
        }
+ 	      
     }
     
     void wrongPass(String message, UserThread excludeUser) {
@@ -160,6 +164,8 @@ public class ChatServer {
               for (int ii = 0; ii < userGroup.length; ii++)
         		 if (user.getUsername().equals(userGroup[ii])) {
         			 user.sendMessage(time+" "+whosent + " -> "  + d+": "+c);
+        			 
+        			 
                  }                
                }
         }
@@ -179,7 +185,9 @@ public class ChatServer {
                   }
               }
          }
-        }           
+        }  
+        
+        /*
         //broadcast to the entire server and whoever connected to the server.
         if (!privateConverse && !groupconversation)
         for (UserThread user : userThreads) {
@@ -187,6 +195,7 @@ public class ChatServer {
                 user.sendMessage(time+" "+message);
             }
         }
+        */
     }
     
     
