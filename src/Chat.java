@@ -1,30 +1,26 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.GridLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
-import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
 public class Chat extends JFrame {
 
+    String[] array;
+    Messagelist messagelist = new Messagelist();
     // main background pane
     private JPanel contentPane;
-
     //text field to type message that to send
     private JTextField messagetext;
-    String[] array;
+
 
     //constructor of class containing gui code
     public Chat() {
@@ -53,7 +49,7 @@ public class Chat extends JFrame {
         panel.setLayout(null);
 
         // label to show name of user
-        JLabel label_userName = new JLabel("Elizbath");
+        JLabel label_userName = new JLabel(getClickedName());
         label_userName.setFont(new Font("Tahoma", Font.BOLD, 14));
 
         //setting x,y axis and width and height of user name label
@@ -101,20 +97,36 @@ public class Chat extends JFrame {
         //adding buttton to background pane
         contentPane.add(exportButton);
 
+        // TODO: add action listener if user clicks on send button
+        sendButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == sendButton) {
+                    //add text to chatArea
+                }
+        }
+    });
         // action of back button action
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //creating object of Messagelist class
-                Messagelist obj = new Messagelist(Login.array);
+                Messagelist obj = new Messagelist();
                 obj.setVisible(true);
                 //close current gui
                 dispose();
+
             }
         });
         //setting x,y axis and width and height back Button
         backButton.setBounds(20, 363, 119, 31);
         //adding button to main pane
         contentPane.add(backButton);
+
+
+    }
+
+    //creates a local method of the getClickedName, idk why (I was trying a bunch of things until this worked)
+    public String getClickedName() {
+        return messagelist.getClickedName();
     }
 }

@@ -23,19 +23,48 @@ import java.awt.event.ActionEvent;
 
 public class Signup extends JFrame {
 
-    // main backgroud pane
-    private JPanel contentPane;
-
-    //text field for username
-    private JTextField txt_username;
-
-    //password field for user passoword
-    private JPasswordField txt_password;
+    static String[] array;
     JButton btn_signup;
     JButton btn_login;
-    static String[] array;
     // constructor of class that will be called while making object of class
     Socket socket;
+    // main backgroud pane
+    private JPanel contentPane;
+    //text field for username
+    private JTextField txt_username;
+    //password field for user passoword
+    private JPasswordField txt_password;
+    ActionListener actionListener = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (e.getSource() == btn_signup) {
+                signUp();
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                Messagelist obj = new Messagelist();
+                obj.setVisible(true);
+                //close current gui
+                dispose();
+                //creating object of messagelist class
+            }
+            if (e.getSource() == btn_login) {
+
+                Login obj = new Login();
+                obj.setVisible(true);
+                //close current gui
+                dispose();
+                //creating object of messagelist class
+            }
+        }
+    };
+
     public Signup(Socket socket) {
         this.socket = socket;
         // Action of end GUI
@@ -95,19 +124,16 @@ public class Signup extends JFrame {
         //setting x,y axis and height and width of button
         btn_signup.setBounds(246, 152, 106, 33);
         panel.add(btn_signup);
-  
 
-        
+
         // Action of signup button
         btn_login = new JButton("LOGIN");
         btn_login.addActionListener(actionListener);
         //setting x,y axis and height and width of button
         btn_login.setBounds(128, 152, 91, 33);
         panel.add(btn_login);
-        
 
-        
-        
+
         //password textfield for user input password
         txt_password = new JPasswordField();
         txt_password.setBounds(128, 92, 224, 27);
@@ -115,61 +141,29 @@ public class Signup extends JFrame {
         //adding password field to panel
         panel.add(txt_password);
     }
-    
-	ActionListener actionListener = new ActionListener() {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			if (e.getSource() == btn_signup) {
-				signUp();
-				
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-	             Messagelist obj = new Messagelist(array);
-	             obj.setVisible(true);
-	             //close current gui
-	             dispose();
-                //creating object of messagelist class
-			}
-			if (e.getSource() == btn_login) {
-			 
-				 Login obj = new Login();
-	             obj.setVisible(true);
-	             //close current gui
-	             dispose();
-                //creating object of messagelist class
-			}
-		}
-	};
-   
-	static void importUserfromServer(String totalUser) {
+    static void importUserfromServer(String totalUser) {
         // adding dummy data to list
-    	totalUser = totalUser.replace("[","");
-    	totalUser = totalUser.replace("]","");
-    	System.out.println();
-    	array = totalUser.split(",");
+        totalUser = totalUser.replace("[", "");
+        totalUser = totalUser.replace("]", "");
+        System.out.println();
+        array = totalUser.split(",");
         for (int i = 0; i < array.length; i++) {
-        	array[i].trim();
+            array[i].trim();
         }
     }
-    
+
     public void signUp() {
-    	try {			
-			OutputStream output = socket.getOutputStream();
-			PrintWriter writer = new PrintWriter(output, true);
-			writer.println("up " + txt_username.getText() + " " + String.valueOf(txt_password.getPassword()));
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        try {
+            OutputStream output = socket.getOutputStream();
+            PrintWriter writer = new PrintWriter(output, true);
+            writer.println("up " + txt_username.getText() + " " + String.valueOf(txt_password.getPassword()));
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    
-    
-    
+
+
 }

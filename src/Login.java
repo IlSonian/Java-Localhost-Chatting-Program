@@ -26,34 +26,50 @@ import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 
-    // main background pane
-    private JPanel contentPane;
-
-    //text field for username
-    private JTextField txt_username;
-
-    //password field for user password
-    private JPasswordField txt_password;
-    JButton btn_login;
-    Socket socket;
-    static boolean in = false;
     //main method to run the gui as thread
     public static String[] array;
+    static boolean in = false;
+    JButton btn_login;
+    Socket socket;
+    // main background pane
+    private JPanel contentPane;
+    //text field for username
+    private JTextField txt_username;
+    //password field for user password
+    private JPasswordField txt_password;
+    ActionListener actionListener = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (e.getSource() == btn_login) {
+                verifyServer();
+                //creating object of messagelist class
+                if (in) {
+                    Messagelist obj = new Messagelist();
+                    obj.setVisible(true);
+                    //close current gui
+                    dispose();
+                }
+            }
+        }
+    };
+
     public Login() {
 
         // Action of end GUI
-    	try {
-			socket =  new Socket("localhost", 8989);
-			new ListenServer(socket, this).start();
-		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+        try {
+            socket = new Socket("localhost", 8989);
+            new ListenServer(socket, this).start();
+        } catch (UnknownHostException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         setBounds(100, 100, 743, 446);
 
         //create background pane
@@ -137,55 +153,21 @@ public class Login extends JFrame {
         //adding password field to panel
         panel.add(txt_password);
     }
-    
-	ActionListener actionListener = new ActionListener() {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			if (e.getSource() == btn_login) {
-			 	verifyServer();
-                //creating object of messagelist class
-			 	if(in) {
-                Messagelist obj = new Messagelist(array);
-                obj.setVisible(true);
-                //close current gui
-                dispose();
-			 	}
-			}
-		}
-	};
-    
     static void importUserfromServer(String totalUser) {
         // adding dummy data to list
-    	totalUser = totalUser.replace("[","");
-    	totalUser = totalUser.replace("]","");
-    	System.out.println();
-    	array = totalUser.split(",");
+        totalUser = totalUser.replace("[", "");
+        totalUser = totalUser.replace("]", "");
+        System.out.println();
+        array = totalUser.split(",");
         for (int i = 0; i < array.length; i++) {
-        	array[i].trim();
+            array[i].trim();
         }
     }
-    
-	static void logintrue(boolean login) {
-		in = login;
-	}
-	
-    void verifyServer() {
-    	try {			
-			OutputStream output = socket.getOutputStream();
-			PrintWriter writer = new PrintWriter(output, true);
-			writer.println("in " + txt_username.getText() + " " + String.valueOf(txt_password.getPassword()));
-            System.out.println(in);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+    static void logintrue(boolean login) {
+        in = login;
     }
-
-
-    // constructor of class that will be called while making object of class
 
     public static void main(String[] args) {
         //thread
@@ -193,7 +175,7 @@ public class Login extends JFrame {
             public void run() {
                 try {
                     //	make object of Login class
-                	
+
                     Login frame = new Login();
                     frame.setVisible(true);
                 } catch (Exception e) {
@@ -201,5 +183,22 @@ public class Login extends JFrame {
                 }
             }
         });
+    }
+
+    // constructor of class that will be called while making object of class
+
+
+
+    void verifyServer() {
+        try {
+            OutputStream output = socket.getOutputStream();
+            PrintWriter writer = new PrintWriter(output, true);
+            writer.println("in " + txt_username.getText() + " " + String.valueOf(txt_password.getPassword()));
+            System.out.println(in);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

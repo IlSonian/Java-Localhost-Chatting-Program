@@ -1,18 +1,13 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridLayout;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
-import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -24,7 +19,10 @@ public class Account extends JFrame {
 
     // constructor of class to run GUI
 
+    
+
     public Account() {
+
 
         // on close GUI action
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,8 +44,10 @@ public class Account extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
 
+
         // label for User name
-        JLabel lblUserName = new JLabel("Name of user");
+        //TODO need to get the name of the registered user (tried multiple things, all gave me null)
+        JLabel lblUserName = new JLabel(("username"));
 
         //setting x,y axis and width and height of label user
         lblUserName.setBounds(74, 43, 84, 33);
@@ -64,7 +64,7 @@ public class Account extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
 
                 // creating object of class to change GUI
-                Messagelist obj = new Messagelist(Login.array);
+                Messagelist obj = new Messagelist();
                 obj.setVisible(true);
 
                 //close currrent GUi
