@@ -51,15 +51,22 @@ public class ChatServer {
         }
     }
     
-    void createGroup(String sender, String[] arr) {
+    void createGroup(String sender, String[] arr, UserThread excludeUser) {
     	ArrayList<String> groupMemberUsername = new ArrayList<String>();
-    	groupMemberUsername.add(sender);
+    	sender = sender.replace("[", "");
+    	sender = sender.replace("]", "");
+    	//groupMemberUsername.add(sender);
     	for (int i =0; i < arr.length; i++) {
     		groupMemberUsername.add(arr[i]);
     	}
-    	
-    	group.add(new Group("Group"+(group.size()+1), groupMemberUsername));
-    	
+    	Group grouppy = new Group("Group"+(group.size()+1), groupMemberUsername);
+    	group.add(grouppy);
+    	   for (UserThread user : userThreads) {
+               if (user == excludeUser) {
+                   user.sendMessage("#{"+ grouppy.toString()+ "}, "+ getUserNames() );
+                   
+               }
+           }
     }
     
     void createDM(String sender, String toReceive) {
@@ -92,6 +99,13 @@ public class ChatServer {
             if (user != excludeUser) {
                 user.sendMessage(message);
             }
+            for (int i =0; i < group.size(); i++)
+            	for (int j = 0 ; j < group.get(i).getUserList().size(); j++) {
+            		if (user.getUsername().equals(group.get(i).getUserList().get(j))) {
+            			user.sendMessage(message + ", {"+ group.get(i).toString() +"}");
+            		}
+            	}
+            
         }
      }
     
@@ -101,6 +115,13 @@ public class ChatServer {
                user.sendMessage(message);
             
            }
+           
+           for (int i =0; i < group.size(); i++)
+           	for (int j = 0 ; j < group.get(i).getUserList().size(); j++) {
+           		if (user.getUsername().equals(group.get(i).getUserList().get(j))) {
+           			user.sendMessage(message + ", {"+ group.get(i).toString() + "}");
+           		}
+           	}
              
        }
  	      
@@ -159,7 +180,7 @@ public class ChatServer {
         		   c += splited[ii] + " ";
         		}
         	}
-        	createGroup(whosent, userGroup);
+        	createGroup(whosent, userGroup, excludeUser);
         	 for (UserThread user : userThreads) {
               for (int ii = 0; ii < userGroup.length; ii++)
         		 if (user.getUsername().equals(userGroup[ii])) {
@@ -200,7 +221,9 @@ public class ChatServer {
     
     
     
-    
+    ArrayList<Group>  getGroup() {
+    	return this.group;
+    }
     Set<String> getUserNames() {
         return this.userNames;
     }
