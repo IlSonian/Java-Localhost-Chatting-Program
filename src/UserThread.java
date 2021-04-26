@@ -60,6 +60,7 @@ public class UserThread extends Thread {
  
             do {
                 clientMessage = reader.readLine();
+                if (clientMessage == null) break;
                 serverMessage = "[" + userName + "]: " + clientMessage;
      
                 
