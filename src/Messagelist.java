@@ -96,7 +96,14 @@ public class Messagelist extends JFrame {
                 if (e.getClickCount() > 0) {
                     clickedName = (String) userlist.getSelectedValue();
                             System.out.println(userlist.getSelectedValue());
-                            Chat chat = new Chat((String) userlist.getSelectedValue());
+                            String grouppy = (String) userlist.getSelectedValue();
+                            if (grouppy.substring(0,1).equals("{")) {
+                            	grouppy = grouppy.replace("{", "[");
+                            	grouppy = grouppy.replace("}", "]");
+                            	grouppy = grouppy.replace(";", ",");
+
+                            }
+                            Chat chat = new Chat(grouppy);
                             chat.setVisible(true);
                             dispose();
 

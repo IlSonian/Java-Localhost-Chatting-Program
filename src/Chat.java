@@ -53,6 +53,7 @@ public class Chat extends JFrame {
     //constructor of class containing gui code
     public Chat(String talktoUser) {
     	sendDm = talktoUser;
+    	
     	if(sendDm.substring(0,1).equals("[")) {
     		sendDm = sendDm.replace("[", "");
     		sendDm = sendDm.replace("]", "");

@@ -19,7 +19,7 @@ public class ReceiverFromUser {
 	 }
 	 
 	 static void importUserfromServer(String totalUser) {
-	        // adding dummy data to list
+	        // adding dummy data to list		    
 	        totalUser = totalUser.replace("[", "");
 	        totalUser = totalUser.replace("]", "");
 	        System.out.println(totalUser);

@@ -37,7 +37,11 @@ public class ListenServer extends Thread{
 	                if (!response.substring(0,2).equals("in") && !response.substring(0,2).equals("up"))
 	                if (response.length() >=4)
 	                if (isNumeric(response.substring(0,4)) ) {
-		                Chat.setSendMessage(response);
+	                	try {
+		                   Chat.setSendMessage(response);
+	                	} catch (Exception e) {
+	                		
+	                	}
 	                }
 	                
 	                
@@ -54,7 +58,7 @@ public class ListenServer extends Thread{
 	               }
 	                else if (td.equals("#")) {
 	                	ReceiverFromUser.importUserfromServer(response.substring(response.indexOf("#")+1));
-	                    System.out.println("\n" + response); 
+	                    System.out.println("\n received users and group:" + response); 
 	                }
 	            } catch (IOException ex) {
 	                ex.printStackTrace();
