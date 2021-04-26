@@ -60,11 +60,14 @@ public class UserThread extends Thread {
  
             do {
                 clientMessage = reader.readLine();
-                if (clientMessage == null) break;
+                if (clientMessage == null)
+                	break;
+                else {
                 serverMessage = "[" + userName + "]: " + clientMessage;
-     
-                
                 server.broadcast(serverMessage, this);
+                }
+                
+               
             } while (true);
              
         } catch (IOException ex) {
