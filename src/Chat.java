@@ -9,6 +9,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
@@ -20,11 +23,36 @@ public class Chat extends JFrame {
     private JPanel contentPane;
     //text field to type message that to send
     private JTextField messagetext;
+    String sendDm;
+    JButton sendButton;
+    static JTextArea chatArea;
+    ActionListener actionListener = new ActionListener() {
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
 
+            if (e.getSource() == sendButton) {
+                //creating object of messagelist class]
+            	chatArea.append( "You: "+ messagetext.getText() + "\n" );
+            	OutputStream output;
+				try {
+					output = ReceiverFromUser.socket.getOutputStream();
+					PrintWriter writer = new PrintWriter(output, true);
+		            writer.println("@" + sendDm.trim() + " " + messagetext.getText());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+             
+            }
+        }
+    };
+    public static  void setSendMessage(String display) {
+    	chatArea.append( display + "\n" );
+	}
     //constructor of class containing gui code
-    public Chat() {
-
+    public Chat(String talktoUser) {
+    	sendDm = talktoUser;
         //action on close gui
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -40,7 +68,7 @@ public class Chat extends JFrame {
 
         //create titled panel for data
         JPanel panel = new JPanel();
-        panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Chat to "+sendDm, TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
         //setting x,y axis and width and height of title panel
         panel.setBounds(10, 24, 693, 324);
@@ -59,7 +87,7 @@ public class Chat extends JFrame {
         panel.add(label_userName);
 
         //creating textarea for user chat
-        JTextArea chatArea = new JTextArea();
+        chatArea = new JTextArea();
 
         //setting x,y axis and width and height of user chat text area
         chatArea.setBounds(61, 98, 268, 161);
@@ -80,11 +108,11 @@ public class Chat extends JFrame {
         messagetext.setColumns(10);
 
         // create send button to send message
-        JButton sendButton = new JButton("SEND");
+        sendButton = new JButton("SEND");
 
         //setting x,y axis and width and height of send button
         sendButton.setBounds(217, 269, 112, 29);
-
+        sendButton.addActionListener(actionListener);
         // add button to title panel
         panel.add(sendButton);
 

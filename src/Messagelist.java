@@ -96,7 +96,7 @@ public class Messagelist extends JFrame {
                 if (e.getClickCount() > 0) {
                     clickedName = (String) userlist.getSelectedValue();
                             System.out.println(userlist.getSelectedValue());
-                            Chat chat = new Chat();
+                            Chat chat = new Chat((String) userlist.getSelectedValue());
                             chat.setVisible(true);
                             dispose();
 

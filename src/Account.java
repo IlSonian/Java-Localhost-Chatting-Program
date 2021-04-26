@@ -95,8 +95,8 @@ public class Account extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 // cereating object of chat class
-                Chat obj = new Chat();
-                obj.setVisible(true);
+                //Chat obj = new Chat();
+               // obj.setVisible(true);
 
                 // close current GUI
                 dispose();

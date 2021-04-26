@@ -20,12 +20,24 @@ public class ListenServer extends Thread{
 	            ex.printStackTrace();
 	        }
 	    }
+	    public static boolean isNumeric(String str) { 
+	    	  try {  
+	    	    Integer.parseInt(str);  
+	    	    return true;
+	    	  } catch(NumberFormatException e){  
+	    	    return false;  
+	    	  }  
+	    	}
 	    
 	    public void run() {
 	        while (true) {
 	            try {
 	                String response = reader.readLine();
 	                System.out.println(response);
+	                if (isNumeric(response.substring(0,4))) {
+		                Chat.setSendMessage(response);
+
+	                }
 	                String td = response.substring(0,1);
 	                if (td.equals("!")) {
 	                	System.out.println("Wrong password");

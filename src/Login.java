@@ -60,6 +60,7 @@ public class Login extends JFrame {
         // Action of end GUI
         try {
             socket = new Socket("localhost", 8989);
+            ReceiverFromUser.socket = socket;
             new ListenServer(socket, this).start();
         } catch (UnknownHostException e1) {
             // TODO Auto-generated catch block
