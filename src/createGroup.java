@@ -102,8 +102,10 @@ public class createGroup extends JFrame {
                    System.out.println(users); // this outputs the users selected (just to check, it is correct)
 
                    //creating object of login class
-                   GroupName groupName = new GroupName();
-                   groupName.setVisible(true);
+                   Chat chat = new Chat(users.toString());
+                   
+                   //GroupName groupName = new GroupName();
+                   chat.setVisible(true);
 
                    //close current GUI
                    dispose();

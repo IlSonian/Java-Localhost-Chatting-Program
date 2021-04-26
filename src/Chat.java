@@ -38,7 +38,7 @@ public class Chat extends JFrame {
 				try {
 					output = ReceiverFromUser.socket.getOutputStream();
 					PrintWriter writer = new PrintWriter(output, true);
-		            writer.println("@" + sendDm.trim() + " " + messagetext.getText());
+		            writer.println(sendDm.trim() + " " + messagetext.getText());
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -53,6 +53,19 @@ public class Chat extends JFrame {
     //constructor of class containing gui code
     public Chat(String talktoUser) {
     	sendDm = talktoUser;
+    	if(sendDm.substring(0,1).equals("[")) {
+    		sendDm = sendDm.replace("[", "");
+    		sendDm = sendDm.replace("]", "");
+ 	        System.out.println(sendDm);
+ 	        array = sendDm.split(",");
+ 	        sendDm = "";
+ 	        for (int i = 0; i < array.length; i++) {
+ 	        	 array[i] =  array[i].trim();
+ 	        	 sendDm += "@" +  array[i] +" ";
+ 	        }
+    	}else {
+    		sendDm = "@" + sendDm.trim();
+    	}
         //action on close gui
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -68,7 +81,7 @@ public class Chat extends JFrame {
 
         //create titled panel for data
         JPanel panel = new JPanel();
-        panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Chat to "+sendDm, TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Chat to "+talktoUser, TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
         //setting x,y axis and width and height of title panel
         panel.setBounds(10, 24, 693, 324);
