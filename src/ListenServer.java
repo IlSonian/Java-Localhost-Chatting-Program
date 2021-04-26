@@ -34,10 +34,13 @@ public class ListenServer extends Thread{
 	            try {
 	                String response = reader.readLine();
 	                System.out.println(response);
-	                if (isNumeric(response.substring(0,4))) {
+	                if (!response.substring(0,2).equals("in") && !response.substring(0,2).equals("up"))
+	                if (response.length() >=4)
+	                if (isNumeric(response.substring(0,4)) ) {
 		                Chat.setSendMessage(response);
-
 	                }
+	                
+	                
 	                String td = response.substring(0,1);
 	                if (td.equals("!")) {
 	                	System.out.println("Wrong password");
