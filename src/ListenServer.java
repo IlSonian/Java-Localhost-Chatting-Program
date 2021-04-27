@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +43,7 @@ public class ListenServer extends Thread{
 	                	try {
 		                   Chat.setSendMessage(response);
 	                	} catch (Exception e) {
-	                		
+	                		Messagelist.userlist.setForeground(Color.red);
 	                	}
 	                }
 	                
