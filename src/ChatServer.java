@@ -150,7 +150,23 @@ public class ChatServer {
             			
             		}
             	}
-            user.sendMessage(allgrou + message);
+        	String[] splited = allgrou.split(",");
+        	  
+        	ArrayList<String> yourList = new ArrayList<>();
+          	for (int i = 0; i < splited.length; i++) {
+        		splited[i] = splited[i].trim();
+        		yourList.add(splited[i]);
+        	}
+          	
+        	Set<String> set = new HashSet<>(yourList);
+        	yourList.clear();
+        	yourList.addAll(set);
+        	String c = yourList.toString();
+        	c = c.replace("[", "");
+        	c = c.replace("]", "");
+        	allgrou = c;
+        	
+            user.sendMessage(message +", "+ allgrou);
               
             
         }
@@ -171,7 +187,23 @@ public class ChatServer {
            			
            		}
            	}
-           user.sendMessage(allgrou + message);
+       	String[] splited = allgrou.split(",");
+        
+    	ArrayList<String> yourList = new ArrayList<>();
+      	for (int i = 0; i < splited.length; i++) {
+    		splited[i] = splited[i].trim();
+    		yourList.add(splited[i]);
+    	}
+      	
+    	Set<String> set = new HashSet<>(yourList);
+    	yourList.clear();
+    	yourList.addAll(set);
+    	String c = yourList.toString();
+    	c = c.replace("[", "");
+    	c = c.replace("]", "");
+    	allgrou = c;
+    	
+           user.sendMessage(message +", "+ allgrou);
              
              
        }
