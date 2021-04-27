@@ -2,29 +2,18 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.print.CancelablePrintJob;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.GridLayout;
-import javax.swing.JTextField;
-import javax.swing.Timer;
-import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
-import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
-import javax.swing.JList;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.AbstractListModel;
 
 public class Messagelist extends JFrame {
 
@@ -35,7 +24,6 @@ public class Messagelist extends JFrame {
     JLabel userSeacrhLabel;
     JTextField txtSearch;
     JButton btnSearch;
-    JButton btnDelete;
 
     // background pane
     private JPanel contentPane;
@@ -140,7 +128,7 @@ public class Messagelist extends JFrame {
         panel.add(btnNewButton);
 
         userSeacrhLabel = new JLabel();
-        userSeacrhLabel.setText("Search for a user:");
+        userSeacrhLabel.setText("Send to user");
         userSeacrhLabel.setBounds(80,50,105,21);
         contentPane.add(userSeacrhLabel);
 
@@ -151,46 +139,22 @@ public class Messagelist extends JFrame {
         contentPane.add(txtSearch);
 
         btnSearch = new JButton();
-        btnSearch.setText("Enter");
+        btnSearch.setText("Chat");
         btnSearch.setBounds(80,94,106,21);
         contentPane.add(btnSearch);
-
-        btnDelete = new JButton();
-        btnDelete.setText("Remove user");
-        btnDelete.setBounds(80,120,115,25);
-        contentPane.add(btnDelete);
-
-        btnDelete.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                String searchedUser = txtSearch.getText();
-
-                if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser)){
-                    int index = model.indexOf(searchedUser);
-
-                    model.remove(index);
-                }
-
-
-            }
-        });
 
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 String searchedUser = txtSearch.getText();
-
                 if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser)){
-                    int index = model.indexOf(searchedUser);
 
-                    for (int j = 0; j < model.size(); j++) {
-                        if (model.indexOf(j) != index){
-                            model.remove(j);
-                        }
-                    }
 
-                }
-
+                Chat chat = new Chat(txtSearch.getText());
+                chat.setVisible(true);
+                dispose();
+                } else JOptionPane.showMessageDialog(
+                        null, "User does not exist", "Error", JOptionPane.ERROR_MESSAGE);
 
             }
         });
