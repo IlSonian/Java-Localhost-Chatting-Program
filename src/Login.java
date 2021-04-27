@@ -54,6 +54,8 @@ public class Login extends JFrame {
                     e1.printStackTrace();
                 }
                 if (ReceiverFromUser.in) {
+                	ReceiverFromUser.myUsername = txt_username.getText();
+                	ReceiverFromUser.mypassword = String.valueOf(txt_password.getPassword());
                     Messagelist obj = new Messagelist();
                     obj.setVisible(true);
                     //close current gui

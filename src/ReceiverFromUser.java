@@ -7,9 +7,13 @@ public class ReceiverFromUser {
 	 static String[] array; 
 	 static Socket socket;
 	 static boolean in = false;
+	 static String myUsername = "";
+	 static String mypassword = "";
+	 
 	 static public void assingSocket(Socket socket) {
 		 ReceiverFromUser.socket = socket;
 	 }
+	 
 	 
 	 static public Socket getSocket() {
 		 return socket;

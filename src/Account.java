@@ -9,6 +9,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
 
 public class Account extends JFrame {
@@ -16,9 +19,58 @@ public class Account extends JFrame {
     // main background pane
     private JPanel contentPane;
     String[] array ;
-
+    JButton editbutton;
+    JButton editbutton2;
+    
+    JButton btnImport;
+    JTextField usernametext;
+    JTextField optext;
+    JTextField nptext;
     // constructor of class to run GUI
+    ActionListener actionListener = new ActionListener() {
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (e.getSource() == editbutton) {
+              	OutputStream output;
+    				try {
+    					output = ReceiverFromUser.socket.getOutputStream();
+    					PrintWriter writer = new PrintWriter(output, true);
+    		            writer.println("!#"+usernametext.getText());
+    				} catch (IOException e1) {
+    					// TODO Auto-generated catch block
+    					e1.printStackTrace();
+    				}
+    				
+    				ReceiverFromUser.myUsername = usernametext.getText();
+            	
+            }
+            
+            if (e.getSource() == editbutton2) {
+            	if (optext.getText().equals(ReceiverFromUser.mypassword)) {
+            	OutputStream output;
+    				try {
+    					output = ReceiverFromUser.socket.getOutputStream();
+    					PrintWriter writer = new PrintWriter(output, true);
+    		            writer.println("$#"+nptext.getText());
+    				} catch (IOException e1) {
+    					// TODO Auto-generated catch block
+    					e1.printStackTrace();
+    				}
+    				
+    				ReceiverFromUser.mypassword = nptext.getText();
+            	} else {
+                 	 JOptionPane.showMessageDialog(
+	                            null, "Wrong password", "Error", JOptionPane.ERROR_MESSAGE);
+            	}
+            	
+            }
+            if (e.getSource() == btnImport) {
+
+            }
+        }
+    };
     
 
     public Account() {
@@ -47,12 +99,37 @@ public class Account extends JFrame {
 
         // label for User name
         //TODO need to get the name of the registered user (tried multiple things, all gave me null)
-        JLabel lblUserName = new JLabel(("username"));
+        usernametext = new JTextField();
+        
+        optext =  new JTextField();
+        nptext =  new JTextField();
+        
+        JLabel lblUserName = new JLabel(("Username: "));
+        
+        
+        JLabel password = new JLabel(("Old Password"));
+        password.setBounds(74, 70, 84, 33);
+        
+        optext.setBounds(130, 70, 91, 33);
+        
+        password.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        panel.add(password);
+        panel.add(optext);
+        JLabel newpassword = new JLabel(("New Password"));
+        newpassword.setBounds(74, 85, 84, 33);
+        nptext.setBounds(130, 85, 91, 33);
 
+        newpassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        panel.add(newpassword);
+        panel.add(nptext);
+
+        
+        usernametext.setText(ReceiverFromUser.myUsername);
         //setting x,y axis and width and height of label user
         lblUserName.setBounds(74, 43, 84, 33);
-
+        usernametext.setBounds(130, 44, 91, 33);
         // adding label to title pane
+        panel.add(usernametext);
         panel.add(lblUserName);
         lblUserName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
@@ -79,18 +156,23 @@ public class Account extends JFrame {
         panel.add(backbutton);
 
         // create edit button
-        JButton editbutton = new JButton("Edit");
-
+        editbutton = new JButton("Edit");
+        editbutton2 = new JButton("Edit");
         //setting x,y axis and width and height of edit button
-        editbutton.setBounds(209, 44, 91, 33);
-
+        editbutton.setBounds(220, 44, 91, 33);
+        editbutton.addActionListener(actionListener);
+        
+        editbutton2.setBounds(220, 70, 91, 33);
+        editbutton2.addActionListener(actionListener);
         // adding edit button to title panel
         panel.add(editbutton);
+        panel.add(editbutton2);
 
         // creating export button
-        JButton btnImport = new JButton("Import");
-
+        btnImport = new JButton("Import");
+        btnImport.addActionListener(actionListener);
         // adding action of import button
+        /*
         btnImport.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -101,7 +183,7 @@ public class Account extends JFrame {
                 // close current GUI
                 dispose();
             }
-        });
+        });*/
         //setting x,y axis and width and height of button import
         btnImport.setBounds(256, 187, 129, 33);
         //adding import button to title panel
