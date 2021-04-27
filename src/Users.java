@@ -20,6 +20,7 @@ public class Users {
 	  }
 	  
 	  public Group getUserGroup() {
+		  
 		  return grouppy;
 	  }
 	  

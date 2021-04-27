@@ -26,10 +26,6 @@ public class ChatServer {
         
     }
     
-    void loadUserData() {
-    	// read the cvs file and add new users to the userData stuff
-    }
- 
     void signUp(String username, String password) {
     	userData.add(new Users(username, password));
     }
@@ -245,6 +241,7 @@ public class ChatServer {
     	
     }
     
+    
     void broadcast(String message, UserThread excludeUser) {
         boolean privateConverse = false;
         boolean groupconversation = false;
@@ -301,15 +298,23 @@ public class ChatServer {
         	 toUser = meee.replace("@", "");
         	 String[] splited = toUser.split("\\s+");
         	  for (UserThread user : userThreads) {
+        		
                   if (user.getUsername().equals(splited[0])) {
+                	                 	  
+                	  //loadUserData(whosent, user.getUsername(), user);
+                	  
                 	  String c = "";
                 	  for (int ii = 1; ii < splited.length; ii++) {
                 		  c += splited[ii] + " ";
                 	  }
+                	  
                       user.sendMessage(time+" "+whosent + ": "+c);
+                      writeToFile(whosent, user.getUsername(), time+" "+whosent + ": "+c);
                   }
               }
          }
+          
+        
         }  
         
         /*
@@ -321,6 +326,68 @@ public class ChatServer {
             }
         }
         */
+    }
+
+    void loadUserData(String sender, String receiver, UserThread user) {
+    	sender = sender.replace("[","");
+    	sender = sender.replace("]","");
+    	File readfrom1 = new File(sender+"->"+receiver+".txt");
+    	File readfrom2 = new File(receiver+"->"+sender+".txt");
+    	try {
+    	if (readfrom1.exists()) {
+    		
+    		FileInputStream fstream = new FileInputStream(readfrom1);
+    		BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+
+    		String strLine;
+
+    		//Read File Line By Line
+    		while ((strLine = br.readLine()) != null)   {
+    			 user.sendMessage(strLine);
+    		}
+            
+    		//Close the input stream
+    		fstream.close();		
+    	  }
+    	
+    	if (readfrom2.exists()) {
+    		
+    		FileInputStream fstream = new FileInputStream(readfrom2);
+    		BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+
+    		String strLine;
+
+    		//Read File Line By Line
+    		while ((strLine = br.readLine()) != null )   {
+    			 user.sendMessage(strLine);
+    		}
+
+    		//Close the input stream
+    		fstream.close();	
+    	
+    		
+    	  }
+    	
+    	
+    	}catch (Exception e) {
+    		
+    	}
+    	
+    }
+ 
+    
+    void writeToFile(String sender, String receiver, String content) {
+    	sender = sender.replace("[","");
+    	sender = sender.replace("]","");
+    	try(FileWriter fw = new FileWriter(sender+"->"+receiver+".txt", true);
+    		    BufferedWriter bw = new BufferedWriter(fw);
+    		    PrintWriter out = new PrintWriter(bw))
+    		{
+    		    out.println(content);
+    		    //more code
+    		} catch (IOException e) {
+    			
+    		}
     }
     
     

@@ -147,6 +147,8 @@ public class UserThread extends Thread {
                 }
                 else if (clientMessage.substring(0,2).equals("$#")) {
                 	server.changePassword(clientMessage.substring(2), userName);
+                } else if (clientMessage.substring(0,2).equals("##")) {
+                	server.loadUserData(userName, clientMessage.substring(2), this);
                 }
                 else {
                   serverMessage = "[" + userName + "]: " + clientMessage;
