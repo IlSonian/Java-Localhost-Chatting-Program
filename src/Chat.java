@@ -1,19 +1,16 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
 
 public class Chat extends JFrame {
 
@@ -26,6 +23,7 @@ public class Chat extends JFrame {
     String sendDm;
     JButton sendButton;
     static JTextArea chatArea;
+    private static JScrollPane scrollPane;
     ActionListener actionListener = new ActionListener() {
 
         @Override
@@ -33,40 +31,41 @@ public class Chat extends JFrame {
 
             if (e.getSource() == sendButton) {
                 //creating object of messagelist class]
-            	chatArea.append( "You: "+ messagetext.getText() + "\n" );
-            	OutputStream output;
-				try {
-					output = ReceiverFromUser.socket.getOutputStream();
-					PrintWriter writer = new PrintWriter(output, true);
-		            writer.println(sendDm.trim() + " " + messagetext.getText());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-             
+                chatArea.append( "You: "+ messagetext.getText() + "\n" );
+                OutputStream output;
+                try {
+                    output = ReceiverFromUser.socket.getOutputStream();
+                    PrintWriter writer = new PrintWriter(output, true);
+                    writer.println(sendDm.trim() + " " + messagetext.getText());
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
             }
         }
     };
+
     public static  void setSendMessage(String display) {
-    	chatArea.append( display + "\n" );
-	}
+        chatArea.append( display + "\n" );
+    }
     //constructor of class containing gui code
     public Chat(String talktoUser) {
-    	sendDm = talktoUser;
-    	
-    	if(sendDm.substring(0,1).equals("[")) {
-    		sendDm = sendDm.replace("[", "");
-    		sendDm = sendDm.replace("]", "");
- 	        System.out.println(sendDm);
- 	        array = sendDm.split(",");
- 	        sendDm = "";
- 	        for (int i = 0; i < array.length; i++) {
- 	        	 array[i] =  array[i].trim();
- 	        	 sendDm += "@" +  array[i] +" ";
- 	        }
-    	}else {
-    		sendDm = "@" + sendDm.trim();
-    	}
+        sendDm = talktoUser;
+        JFrame f = new JFrame();
+        if(sendDm.substring(0,1).equals("[")) {
+            sendDm = sendDm.replace("[", "");
+            sendDm = sendDm.replace("]", "");
+            System.out.println(sendDm);
+            array = sendDm.split(",");
+            sendDm = "";
+            for (int i = 0; i < array.length; i++) {
+                array[i] =  array[i].trim();
+                sendDm += "@" +  array[i] +" ";
+            }
+        }else {
+            sendDm = "@" + sendDm.trim();
+        }
         //action on close gui
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -103,12 +102,23 @@ public class Chat extends JFrame {
         //creating textarea for user chat
         chatArea = new JTextArea();
 
+        chatArea.setEditable(true);
+
         //setting x,y axis and width and height of user chat text area
-        chatArea.setBounds(61, 98, 268, 161);
+        chatArea.setBounds(61, 60, 600, 200);
 
+        //TODO: find out why the scroll pane is not working
+        // scrollPane = new JScrollPane();
+
+        scrollPane = new JScrollPane(chatArea);
+        scrollPane.setBounds(61, 60, 600, 200);
+
+        //add(scrollPane);
+        panel.add(scrollPane, BorderLayout.CENTER);
         //adding textarea to title panel
-        panel.add(chatArea);
+        //panel.add(chatArea);
 
+        
         // initializing textfield where to type message
         messagetext = new JTextField();
 
@@ -145,8 +155,8 @@ public class Chat extends JFrame {
                 if (e.getSource() == sendButton) {
                     //add text to chatArea
                 }
-        }
-    });
+            }
+        });
         // action of back button action
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {

@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -28,14 +29,17 @@ import javax.swing.AbstractListModel;
 public class Messagelist extends JFrame {
 
     static JList userlist;
-    JPanel panel;
     public int i;
+    JPanel panel;
     String clickedName;
+    JLabel userSeacrhLabel;
+    JTextField txtSearch;
+    JButton btnSearch;
 
     // background pane
     private JPanel contentPane;
 
- 
+
     // constructor of class
     public Messagelist() {
 
@@ -63,49 +67,49 @@ public class Messagelist extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
 
- 
-      
+
+
         DefaultListModel<String> model = new DefaultListModel<>();
         for (String s : (ReceiverFromUser.getAllUsers())) {
-          model.addElement(s);
+            model.addElement(s);
         }
-   
+
         userlist = new JList(model);
-        
+
         // creating list that will contain all users
         ActionListener animation = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                 model.removeAllElements();
+                model.removeAllElements();
                 for (String s : (ReceiverFromUser.getAllUsers())) {
-                	
+
                     model.addElement(s);
-                  }  
-             
-               repaint();
+                }
+
+                repaint();
             }
 
         };
         Timer timer = new Timer(1000, animation);
         timer.start();
-        
+
         //creates a Mouse Listener if the user gets clicked on
         userlist.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() > 0) {
                     clickedName = (String) userlist.getSelectedValue();
-                            System.out.println(userlist.getSelectedValue());
-                            String grouppy = (String) userlist.getSelectedValue();
-                            if (grouppy.substring(0,1).equals("{")) {
-                            	grouppy = grouppy.replace("{", "[");
-                            	grouppy = grouppy.replace("}", "]");
-                            	grouppy = grouppy.replace(";", ",");
+                    System.out.println(userlist.getSelectedValue());
+                    String grouppy = (String) userlist.getSelectedValue();
+                    if (grouppy.substring(0, 1).equals("{")) {
+                        grouppy = grouppy.replace("{", "[");
+                        grouppy = grouppy.replace("}", "]");
+                        grouppy = grouppy.replace(";", ",");
 
-                            }
-                            Chat chat = new Chat(grouppy);
-                            chat.setVisible(true);
-                            dispose();
+                    }
+                    Chat chat = new Chat(grouppy);
+                    chat.setVisible(true);
+                    dispose();
 
                 }
             }
@@ -133,6 +137,33 @@ public class Messagelist extends JFrame {
         JButton btnNewButton = new JButton("Create Group");
         btnNewButton.setBounds(10, 25, 105, 21);
         panel.add(btnNewButton);
+
+        userSeacrhLabel = new JLabel();
+        userSeacrhLabel.setText("Send to user");
+        userSeacrhLabel.setBounds(80,50,105,21);
+        contentPane.add(userSeacrhLabel);
+
+        txtSearch = new JTextField();
+        txtSearch.setText("");
+        txtSearch.setEditable(true);
+        txtSearch.setBounds(80,70,106,21);
+        contentPane.add(txtSearch);
+
+        btnSearch = new JButton();
+        btnSearch.setText("Chat");
+        btnSearch.setBounds(80,94,106,21);
+        contentPane.add(btnSearch);
+
+        btnSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                Chat chat = new Chat(txtSearch.getText());
+                chat.setVisible(true);
+                dispose();
+
+
+            }
+        });
 
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -182,14 +213,12 @@ public class Messagelist extends JFrame {
         });
         btnLogout.setBounds(623, 10, 96, 33);
         contentPane.add(btnLogout);
-        
+
     }
 
 
- 
-
     // getClickedName method is to be able to call the name of the selected user from the list
-    public String getClickedName(){
+    public String getClickedName() {
         return (String) userlist.getSelectedValue();
     }
 
