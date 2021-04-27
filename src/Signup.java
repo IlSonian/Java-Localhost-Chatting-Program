@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
@@ -53,6 +55,9 @@ public class Signup extends JFrame {
                 obj.setVisible(true);
                 //close current gui
                 dispose();
+                } else {
+                	 JOptionPane.showMessageDialog(
+	                            null, "Username already exists", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 //creating object of messagelist class
             }

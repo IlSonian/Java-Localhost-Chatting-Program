@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 public class ListenServer extends Thread{
 	  private BufferedReader reader;
 	    private Socket socket;
@@ -47,7 +49,8 @@ public class ListenServer extends Thread{
 	                
 	                String td = response.substring(0,1);
 	                if (td.equals("!")) {
-	                	System.out.println("Wrong password");
+	                	//System.out.println("Wrong password");
+	                   
 	                	//Login.in = (false);
 	                	ReceiverFromUser.in = (false);
 	                }
