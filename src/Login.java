@@ -51,7 +51,7 @@ public class Login extends JFrame {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-                if (in) {
+                if (ReceiverFromUser.in) {
                     Messagelist obj = new Messagelist();
                     obj.setVisible(true);
                     //close current gui

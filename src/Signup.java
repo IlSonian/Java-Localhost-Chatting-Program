@@ -48,10 +48,12 @@ public class Signup extends JFrame {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
+                if (ReceiverFromUser.in) {
                 Messagelist obj = new Messagelist();
                 obj.setVisible(true);
                 //close current gui
                 dispose();
+                }
                 //creating object of messagelist class
             }
             if (e.getSource() == btn_login) {

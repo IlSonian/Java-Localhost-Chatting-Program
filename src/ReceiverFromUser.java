@@ -6,7 +6,7 @@ public class ReceiverFromUser {
 	
 	 static String[] array; 
 	 static Socket socket;
-	 
+	 static boolean in = false;
 	 static public void assingSocket(Socket socket) {
 		 ReceiverFromUser.socket = socket;
 	 }
