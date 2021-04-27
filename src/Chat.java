@@ -67,15 +67,7 @@ public class Chat extends JFrame {
             sendDm = "@" + sendDm.trim();
         }
         
-        OutputStream output;
-        try {
-            output = ReceiverFromUser.socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
-            writer.println("##"+talktoUser);
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
+ 
         //action on close gui
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -183,7 +175,16 @@ public class Chat extends JFrame {
         backButton.setBounds(20, 363, 119, 31);
         //adding button to main pane
         contentPane.add(backButton);
-
+        
+        OutputStream output;
+        try {
+            output = ReceiverFromUser.socket.getOutputStream();
+            PrintWriter writer = new PrintWriter(output, true);
+            writer.println("##"+talktoUser);
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 
     }
 
