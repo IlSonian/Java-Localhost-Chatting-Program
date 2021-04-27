@@ -59,14 +59,48 @@ public class ChatServer {
     	for (int i =0; i < arr.length; i++) {
     		groupMemberUsername.add(arr[i]);
     	}
+    	
     	Group grouppy = new Group("Group"+(group.size()+1), groupMemberUsername);
     	group.add(grouppy);
+    	/*
     	   for (UserThread user : userThreads) {
                if (user == excludeUser) {
                    user.sendMessage("#{"+ grouppy.toString()+ "}, "+ getUserNames() );
                    
                }
-           }
+           } */
+    	for (UserThread user : userThreads) {
+        String allgrou = "";
+        boolean check = false;
+        for (int i =0; i < group.size(); i++) {
+        	check = false;
+        	for (int j = 0 ; j < group.get(i).getUserList().size(); j++) {
+        		if (excludeUser.getUsername().equals(group.get(i).getUserList().get(j))) {
+        			check = true;	
+        		}
+        	}
+        	if (check) {
+        		allgrou += allgrou +"{"+ group.get(i).toString() +"}, ";
+        	}
+        }
+    	String[] splited = allgrou.split(",");
+  
+    	ArrayList<String> yourList = new ArrayList<>();
+      	for (int i = 0; i < splited.length; i++) {
+    		splited[i] = splited[i].trim();
+    		yourList.add(splited[i]);
+    	}
+      	
+    	Set<String> set = new HashSet<>(yourList);
+    	yourList.clear();
+    	yourList.addAll(set);
+    	String c = yourList.toString();
+    	c = c.replace("[", "");
+    	c = c.replace("]", "");
+    	allgrou = c;
+
+        user.sendMessage("#"+allgrou +", "+getUserNames());
+    	}
     }
     
     void createDM(String sender, String toReceive) {
@@ -99,12 +133,17 @@ public class ChatServer {
             if (user != excludeUser) {
                 user.sendMessage(message);
             }
+           
+            String allgrou = "";
             for (int i =0; i < group.size(); i++)
             	for (int j = 0 ; j < group.get(i).getUserList().size(); j++) {
             		if (user.getUsername().equals(group.get(i).getUserList().get(j))) {
-            			user.sendMessage(message + ", {"+ group.get(i).toString() +"}");
+            			allgrou += allgrou+ "{"+ group.get(i).toString() + "}, ";
+            			
             		}
             	}
+            user.sendMessage(allgrou + message);
+              
             
         }
      }
@@ -116,12 +155,16 @@ public class ChatServer {
             
            }
            
+           String allgrou = "";
            for (int i =0; i < group.size(); i++)
            	for (int j = 0 ; j < group.get(i).getUserList().size(); j++) {
            		if (user.getUsername().equals(group.get(i).getUserList().get(j))) {
-           			user.sendMessage(message + ", {"+ group.get(i).toString() + "}");
+           			allgrou += allgrou+ "{"+ group.get(i).toString() + "}, ";
+           			
            		}
            	}
+           user.sendMessage(allgrou + message);
+             
              
        }
  	      
@@ -145,6 +188,28 @@ public class ChatServer {
     
     
  
+    boolean checkGroupExist(String sender, String[] users) {
+    	//sender = sender.replace("[", "");
+    	//sender = sender.replace("]", "");
+    	ArrayList<String> all = new ArrayList<>();
+    	//all.add(sender);
+    	for (int i = 0; i< users.length; i++) {
+    		all.add(users[i]);
+    	}
+    	Collections.sort(all);
+    	System.out.println( "Sent contains" +all);
+    	for (int i = 0; i <group.size(); i++ ) {
+    			Collections.sort(group.get(i).getUserList());
+    			System.out.println("Check user contain "+ group.get(i).getUserList()  );
+    			if (group.get(i).getUserList().equals(all)) {
+    				System.out.println("It equals");
+    				return true;
+    			}
+    		}
+    	return false;
+    	
+    }
+    
     void broadcast(String message, UserThread excludeUser) {
         boolean privateConverse = false;
         boolean groupconversation = false;
@@ -179,8 +244,12 @@ public class ChatServer {
         		} else {
         		   c += splited[ii] + " ";
         		}
+        	
         	}
-        	createGroup(whosent, userGroup, excludeUser);
+        	
+        	if (!checkGroupExist(whosent, userGroup))
+            	createGroup(whosent, userGroup, excludeUser);
+        	
         	 for (UserThread user : userThreads) {
               for (int ii = 0; ii < userGroup.length; ii++)
         		 if (user.getUsername().equals(userGroup[ii])) {
