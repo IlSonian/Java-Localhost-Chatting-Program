@@ -36,7 +36,7 @@ public class ListenServer extends Thread{
 	        while (true) {
 	            try {
 	                String response = reader.readLine();
-	                System.out.println(response);
+	                System.out.println("Received conversation from server: "+response);
 	                if (!response.substring(0,2).equals("in") && !response.substring(0,2).equals("up"))
 	                if (response.length() >=4)
 	                if (isNumeric(response.substring(0,4)) ) {

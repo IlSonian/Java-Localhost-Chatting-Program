@@ -46,7 +46,7 @@ public class Chat extends JFrame {
         }
     };
 
-    public static  void setSendMessage(String display) {
+    public static void setSendMessage(String display) {
         chatArea.append( display + "\n" );
     }
     //constructor of class containing gui code
@@ -65,6 +65,16 @@ public class Chat extends JFrame {
             }
         }else {
             sendDm = "@" + sendDm.trim();
+        }
+        
+        OutputStream output;
+        try {
+            output = ReceiverFromUser.socket.getOutputStream();
+            PrintWriter writer = new PrintWriter(output, true);
+            writer.println("##"+talktoUser);
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
         }
         //action on close gui
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
