@@ -116,6 +116,18 @@ public class ChatServer {
     	}
     }
     
+    boolean checkUserNameDuplication(String username) {
+	for (int i = 0; i < userData.size(); i++) {
+            System.out.println("check dups "+username+" "+userData.get(i).getUsername());
+    		if (username.equals(userData.get(i).getUsername()) ) {
+    			System.out.println(" dups");
+    			return true;
+    		}
+    		
+    	}
+	   return false;
+    }
+    
     boolean checkUserNameAndPassword(String username, String password) {
     	for (int i = 0; i < userData.size(); i++) {
             

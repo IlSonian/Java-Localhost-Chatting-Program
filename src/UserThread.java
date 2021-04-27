@@ -19,6 +19,50 @@ public class UserThread extends Thread {
     	return userName;
     }
     
+    public void login(BufferedReader reader) throws IOException {
+    	 
+    	while (up.equals("in") && !server.checkUserNameAndPassword(userName, password)) {
+		userNameAndPassword = reader.readLine();
+        String[] splited = userNameAndPassword.split("\\s+");
+        
+        up = splited[0];
+        userName = splited[1];
+        password = splited[2];
+        server.wrongPass("Wrong pass", this);
+         
+        }  
+        	
+        if (up.equals("up")) {
+        	signup(reader);
+        } else {
+        	server.correctPass("Correct pass", this);   
+            String serverMessage = "#" + server.getUserNames();
+            server.giveListOfUsers(serverMessage, this);
+        }
+    }
+    
+    public void signup (BufferedReader reader) throws IOException {
+        	System.out.println("sign up");
+        	while(server.checkUserNameDuplication(userName) && up.equals("up")) { 
+				  userNameAndPassword = reader.readLine();
+                  String[] splited = userNameAndPassword.split("\\s+");                 
+                  up = splited[0];
+                  userName = splited[1];
+                  password = splited[2];
+                  System.out.println("Duuplicates");
+                  server.wrongPass("Duplicate username", this);
+            }
+        	if (up.equals("in")) {
+        		login(reader);
+        	} else {
+            server.correctPass("Good", this);   
+           	server.signUp(userName, password);
+            String serverMessage = "#" + server.getUserNames();
+            server.giveListOfUsers(serverMessage, this);
+        	}
+        
+    }
+    
     public void run() {
         try {
             InputStream input = socket.getInputStream();
@@ -27,6 +71,19 @@ public class UserThread extends Thread {
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
  
+            userNameAndPassword = reader.readLine();
+            String[] splited = userNameAndPassword.split("\\s+");
+            
+            up = splited[0];
+            userName = splited[1];
+            password = splited[2];
+            
+            if (up.equals("in")) {
+            	login(reader);
+            } else if (up.equals("up")) {
+            	signup(reader);
+            }
+            /*
             do {
             userNameAndPassword = reader.readLine();
             String[] splited = userNameAndPassword.split("\\s+");
@@ -39,17 +96,32 @@ public class UserThread extends Thread {
              
             } while (up.equals("in") && !server.checkUserNameAndPassword(userName, password)); 
             	
+            if (up.equals("in"))
             if(server.checkUserNameAndPassword(userName, password)) {
             	server.correctPass("Correct pass", this);   
                 String serverMessage = "#" + server.getUserNames();
                 server.giveListOfUsers(serverMessage, this);
              }
+             
+             */
             
+            /*
             if(up.equals("up") ) {
-            	server.signUp(userName, password);
+            	System.out.println("sign up");
+            	while(server.checkUserNameDuplication(userName)) { 
+            		  userNameAndPassword = reader.readLine();
+                      String[] splited = userNameAndPassword.split("\\s+");                 
+                      up = splited[0];
+                      userName = splited[1];
+                      password = splited[2];
+                      System.out.println("Duuplicates");
+                      server.wrongPass("Duplicate username", this);
+                }
+               	server.signUp(userName, password);
                 String serverMessage = "#" + server.getUserNames();
                 server.giveListOfUsers(serverMessage, this);
             }
+            */
             
             server.addUserName(userName);
             String serverMessage = "#" + server.getUserNames();
