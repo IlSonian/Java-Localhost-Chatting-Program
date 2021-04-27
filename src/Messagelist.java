@@ -169,7 +169,7 @@ public class Messagelist extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 //creating object of login class
-                createGroup group = new createGroup(Login.array);
+                createGroup group = new createGroup(ReceiverFromUser.getAllUsers());
                 group.setVisible(true);
 
                 //close current GUI
