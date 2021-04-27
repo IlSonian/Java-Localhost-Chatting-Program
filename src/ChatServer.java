@@ -3,7 +3,7 @@ import java.net.*;
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime;  
 import java.util.*;
- 
+
 public class ChatServer {
    
 	private int port;
@@ -198,6 +198,29 @@ public class ChatServer {
            }
     }
     
+    void changeUserName(String oldName, String newName, UserThread excludeUser) {   	
+    	for (String c : userNames) {
+    		if (c.equals(oldName)) {
+    			userNames.remove(c);
+    			userNames.add(newName);
+    		}
+    	}
+    	for (int i = 0; i < userData.size(); i++) {
+            System.out.println("CHANGE username "+oldName+" "+userData.get(i).getUsername());
+    		if (oldName.equals(userData.get(i).getUsername()) ) {
+    			userData.get(i).setUsername(newName);
+    		}
+    		}
+    }
+    
+    void changePassword(String newPass, String username) {
+      	for (int i = 0; i < userData.size(); i++) {
+            System.out.println("CHANGE passwoed "+username+" "+userData.get(i).getUsername());
+    		if (username.equals(userData.get(i).getUsername()) ) {
+    			userData.get(i).setPsswd(newPass);
+    		}
+    		}
+    }
     
  
     boolean checkGroupExist(String sender, String[] users) {

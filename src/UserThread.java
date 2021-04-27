@@ -15,6 +15,10 @@ public class UserThread extends Thread {
         this.server = server;
     }
     
+    public void setUsername(String name) {
+    	userName = name;
+    }
+    
     public String getUsername() {
     	return userName;
     }
@@ -132,11 +136,22 @@ public class UserThread extends Thread {
  
             do {
                 clientMessage = reader.readLine();
+                
                 if (clientMessage == null)
                 	break;
                 else {
-                serverMessage = "[" + userName + "]: " + clientMessage;
-                server.broadcast(serverMessage, this);
+                if (clientMessage.substring(0,2).equals("!#")) {
+                	String oldName = userName;
+                	setUsername(clientMessage.substring(2));
+                	server.changeUserName(oldName, clientMessage.substring(2), this);
+                }
+                else if (clientMessage.substring(0,2).equals("$#")) {
+                	server.changePassword(clientMessage.substring(2), userName);
+                }
+                else {
+                  serverMessage = "[" + userName + "]: " + clientMessage;
+                  server.broadcast(serverMessage, this);
+                }
                 }
                 
                

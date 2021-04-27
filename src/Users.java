@@ -27,8 +27,16 @@ public class Users {
 		  this.grouppy = grouppy;
 	  }
 	  
+	  public void setUsername(String username) {
+		  this.username = username;
+	  }
+	  
 	  public String getUsername() {
 		  return username;
+	  }
+	  
+	  public void setPsswd(String psswd) {
+		  this.psswd = psswd;
 	  }
 	  
 	  public String getPsswd() {
