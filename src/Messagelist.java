@@ -35,6 +35,7 @@ public class Messagelist extends JFrame {
     JLabel userSeacrhLabel;
     JTextField txtSearch;
     JButton btnSearch;
+    JButton btnDelete;
 
     // background pane
     private JPanel contentPane;
@@ -153,6 +154,26 @@ public class Messagelist extends JFrame {
         btnSearch.setText("Enter");
         btnSearch.setBounds(80,94,106,21);
         contentPane.add(btnSearch);
+
+        btnDelete = new JButton();
+        btnDelete.setText("Remove user");
+        btnDelete.setBounds(80,120,115,25);
+        contentPane.add(btnDelete);
+
+        btnDelete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                String searchedUser = txtSearch.getText();
+
+                if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser)){
+                    int index = model.indexOf(searchedUser);
+
+                    model.remove(index);
+                }
+
+
+            }
+        });
 
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
