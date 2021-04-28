@@ -154,6 +154,8 @@ public class UserThread extends Thread {
                 	   System.out.println("Gotta do");
                 	} else               	
                 	  server.loadUserData(userName, clientMessage.substring(2), this);
+                } else if (clientMessage.substring(0,2).equals("!!")) {
+                	server.deleteAccount(userName);
                 }
                 else {
                   serverMessage = "[" + userName + "]: " + clientMessage;

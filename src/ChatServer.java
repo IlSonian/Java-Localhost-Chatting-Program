@@ -484,6 +484,22 @@ public class ChatServer {
     }
     
     
+    void deleteAccount(String username) {
+    	for (String one : userNames) {
+    	    if (username.equals(one)) {
+    	    	userNames.remove(username);
+    	    }
+    	  }
+    	
+    	for (int i = 0; i < userData.size(); i++) {
+            System.out.println("delete username "+username+" "+userData.get(i).getUsername());
+    		if (username.equals(userData.get(i).getUsername()) ) {
+    			userData.remove(i);
+    			break;
+    		  }
+    		}
+    }
+    
     
     ArrayList<Group>  getGroup() {
     	return this.group;
