@@ -23,6 +23,8 @@ public class Account extends JFrame {
     JButton editbutton2;
     JButton change;
 
+    JButton deleteAccount;
+
     JButton btnImport;
     JTextField usernametext;
     JTextField newUsernameTxt;
@@ -47,6 +49,23 @@ public class Account extends JFrame {
 
                 ReceiverFromUser.myUsername = usernametext.getText();
 
+            }
+
+            if (e.getSource() == deleteAccount) {
+                OutputStream output;
+                try {
+                    output = ReceiverFromUser.socket.getOutputStream();
+                    PrintWriter writer = new PrintWriter(output, true);
+                    writer.println("!!");
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
+                Login obj = new Login();
+                obj.setVisible(true);
+                //close currrent GUi
+                dispose();
             }
 
             if (e.getSource() == editbutton2) {
@@ -110,7 +129,7 @@ public class Account extends JFrame {
 
 
         JLabel password = new JLabel(("Old Password: "));
-        password.setBounds(45, 70, 84, 30);
+        password.setBounds(45, 73, 84, 30);
 
         optext.setBounds(130, 78, 91, 30);
 
@@ -135,6 +154,15 @@ public class Account extends JFrame {
         panel.add(lblUserName);
         lblUserName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
+
+        deleteAccount = new JButton("Delete Account");
+
+        deleteAccount.setBounds(15, 187, 129, 33);
+
+        panel.add(deleteAccount);
+
+
+        deleteAccount.addActionListener(actionListener);
         // creating button "back"
         JButton backbutton = new JButton("BACK");
 
@@ -189,5 +217,4 @@ public class Account extends JFrame {
         //adding import button to title panel
         panel.add(btnImport);
     }
-
 }
