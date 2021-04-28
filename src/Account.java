@@ -22,6 +22,8 @@ public class Account extends JFrame {
     JButton editbutton;
     JButton editbutton2;
     JButton change;
+   
+    JButton deleteAccount;
 
     JButton btnImport;
     JTextField usernametext;
@@ -47,6 +49,23 @@ public class Account extends JFrame {
 
                 ReceiverFromUser.myUsername = usernametext.getText();
 
+            }
+            
+            if (e.getSource() == deleteAccount) {
+            	  OutputStream output;
+                  try {
+                      output = ReceiverFromUser.socket.getOutputStream();
+                      PrintWriter writer = new PrintWriter(output, true);
+                      writer.println("!!");
+                  } catch (IOException e1) {
+                      // TODO Auto-generated catch block
+                      e1.printStackTrace();
+                  }
+            	
+                Login obj = new Login();
+                obj.setVisible(true);
+                //close currrent GUi
+                dispose();
             }
 
             if (e.getSource() == editbutton2) {
@@ -135,6 +154,15 @@ public class Account extends JFrame {
         panel.add(lblUserName);
         lblUserName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
+        
+        deleteAccount = new JButton("Delete Account");
+       
+        deleteAccount.setBounds(74, 200, 224, 33);
+        
+        panel.add(deleteAccount);
+        
+        
+        deleteAccount.addActionListener(actionListener);
         // creating button "back"
         JButton backbutton = new JButton("BACK");
 
