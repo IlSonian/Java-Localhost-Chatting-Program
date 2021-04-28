@@ -28,6 +28,9 @@ public class Messagelist extends JFrame {
     JButton btnSearch;
     JButton btnDelete;
 
+    
+    private static String searchedUser; // to see the user that got searched in the search/dm feature
+
 
     // background pane
     private JPanel contentPane;
@@ -62,7 +65,8 @@ public class Messagelist extends JFrame {
 
         DefaultListModel<String> model = new DefaultListModel<>();
         for (String s : (ReceiverFromUser.getAllUsers())) {
-            model.addElement(s);
+        	 
+                    model.addElement(s);
         }
 
         userlist = new JList(model);
@@ -73,8 +77,8 @@ public class Messagelist extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 model.removeAllElements();
                 for (String s : (ReceiverFromUser.getAllUsers())) {
-
-                    model.addElement(s);
+                	  if (!s.equals(searchedUser)) 
+                        model.addElement(s);
                 }
 
                 repaint();
@@ -170,7 +174,7 @@ public class Messagelist extends JFrame {
         btnDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                String searchedUser = txtSearch.getText();
+                 searchedUser = txtSearch.getText();
 
                 if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser)) {
                     int index = model.indexOf(searchedUser);
