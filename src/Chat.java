@@ -181,6 +181,7 @@ public class Chat extends JFrame {
             output = ReceiverFromUser.socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
             writer.println("##"+talktoUser);
+            System.out.println("##"+talktoUser);
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
