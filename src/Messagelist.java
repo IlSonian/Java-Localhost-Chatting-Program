@@ -27,6 +27,8 @@ public class Messagelist extends JFrame {
     JTextField txtSearch;
     JButton btnSearch;
     JButton btnDelete;
+    int index; // to see the index of the username in the list
+    String searchedUser; // to see the user that got searched in the search/dm feature
 
 
     // background pane
@@ -61,10 +63,11 @@ public class Messagelist extends JFrame {
         panel.setLayout(null);
 
 
-
         DefaultListModel<String> model = new DefaultListModel<>();
+
         for (String s : (ReceiverFromUser.getAllUsers())) {
             model.addElement(s);
+
         }
 
         userlist = new JList(model);
@@ -76,7 +79,11 @@ public class Messagelist extends JFrame {
                 model.removeAllElements();
                 for (String s : (ReceiverFromUser.getAllUsers())) {
 
-                    model.addElement(s);
+                    if (!s.equals(searchedUser)) {
+                        model.addElement(s);
+
+                    }
+
                 }
 
                 repaint();
@@ -132,55 +139,56 @@ public class Messagelist extends JFrame {
         panel.add(btnNewButton);
 
         userSeacrhLabel = new JLabel();
-        userSeacrhLabel.setText("Send to user");
-        userSeacrhLabel.setBounds(80,50,105,21);
+        userSeacrhLabel.setText("Send DM/delete chat");
+        userSeacrhLabel.setBounds(80, 50, 105, 21);
         contentPane.add(userSeacrhLabel);
 
         txtSearch = new JTextField();
         txtSearch.setText("");
         txtSearch.setEditable(true);
-        txtSearch.setBounds(80,70,106,21);
+        txtSearch.setBounds(80, 70, 106, 21);
         contentPane.add(txtSearch);
 
         btnSearch = new JButton();
         btnSearch.setText("Chat");
-        btnSearch.setBounds(80,94,106,21);
+        btnSearch.setBounds(80, 94, 106, 21);
         contentPane.add(btnSearch);
 
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 String searchedUser = txtSearch.getText();
-                if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser)){
-
+                if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser)) {
 
                     Chat chat = new Chat(txtSearch.getText());
                     chat.setVisible(true);
                     dispose();
                 } else JOptionPane.showMessageDialog(
-                        null, "User does not exist", "Error", JOptionPane.ERROR_MESSAGE);
+                        null, "Username does not exist", "Error", JOptionPane.ERROR_MESSAGE);
+
 
             }
         });
 
         btnDelete = new JButton();
         btnDelete.setText("Remove user");
-        btnDelete.setBounds(80,120,115,25);
+        btnDelete.setBounds(80, 120, 115, 25);
         contentPane.add(btnDelete);
 
         btnDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                String searchedUser = txtSearch.getText();
+                searchedUser = txtSearch.getText();
 
                 if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser)) {
-                    int index = model.indexOf(searchedUser);
+                    index = model.indexOf(searchedUser);
 
                     List<String> list = new ArrayList<>(Arrays.asList(ReceiverFromUser.array));
                     list.remove(index);
 
                     ReceiverFromUser.array = list.toArray(new String[0]);
-                }
+                } else JOptionPane.showMessageDialog(
+                        null, "Username does not exist to be removed", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
