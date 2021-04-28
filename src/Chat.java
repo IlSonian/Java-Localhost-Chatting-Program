@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.border.EtchedBorder;
 
 import java.awt.BorderLayout;
@@ -56,8 +57,17 @@ public class Chat extends JFrame {
 
             	try   
             	{  
+   
+            		   JFileChooser chooser = new JFileChooser();
+            	        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV files", "csv");
+            	        chooser.setFileFilter(filter);
+            	        int returnVal = chooser.showOpenDialog(null);
+            	        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            	            System.out.println("You chose to open this file: " +
+            	                    chooser.getSelectedFile().getName());
+            	        }
             	//parsing a CSV file into BufferedReader class constructor  
-            	BufferedReader br = new BufferedReader(new FileReader("data.csv"));  
+            	BufferedReader br = new BufferedReader(new FileReader(chooser.getSelectedFile().getAbsolutePath()));  
             	while ((line = br.readLine()) != null)   //returns a Boolean value  
             	{  
                          // use comma as separator  
@@ -189,7 +199,7 @@ public class Chat extends JFrame {
         importdata = new JButton("Import chat");
 
         
-        importdata.setBounds(217, 300, 112, 29);
+        importdata.setBounds(548, 269, 112, 29);
  
 
         importdata.addActionListener(actionListener);

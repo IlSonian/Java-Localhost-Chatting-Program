@@ -22,7 +22,7 @@ public class Account extends JFrame {
     JButton editbutton;
     JButton editbutton2;
     JButton change;
-   
+
     JButton deleteAccount;
 
     JButton btnImport;
@@ -50,18 +50,18 @@ public class Account extends JFrame {
                 ReceiverFromUser.myUsername = usernametext.getText();
 
             }
-            
+
             if (e.getSource() == deleteAccount) {
-            	  OutputStream output;
-                  try {
-                      output = ReceiverFromUser.socket.getOutputStream();
-                      PrintWriter writer = new PrintWriter(output, true);
-                      writer.println("!!");
-                  } catch (IOException e1) {
-                      // TODO Auto-generated catch block
-                      e1.printStackTrace();
-                  }
-            	
+                OutputStream output;
+                try {
+                    output = ReceiverFromUser.socket.getOutputStream();
+                    PrintWriter writer = new PrintWriter(output, true);
+                    writer.println("!!");
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
                 Login obj = new Login();
                 obj.setVisible(true);
                 //close currrent GUi
@@ -154,14 +154,14 @@ public class Account extends JFrame {
         panel.add(lblUserName);
         lblUserName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
-        
+
         deleteAccount = new JButton("Delete Account");
-       
-        deleteAccount.setBounds(74, 200, 224, 33);
-        
+
+        deleteAccount.setBounds(15, 187, 129, 33);
+
         panel.add(deleteAccount);
-        
-        
+
+
         deleteAccount.addActionListener(actionListener);
         // creating button "back"
         JButton backbutton = new JButton("BACK");
@@ -217,5 +217,4 @@ public class Account extends JFrame {
         //adding import button to title panel
         panel.add(btnImport);
     }
-
 }
