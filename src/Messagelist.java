@@ -28,7 +28,8 @@ public class Messagelist extends JFrame {
     JButton btnSearch;
     JButton btnDelete;
     int index; // to see the index of the username in the list
-    String searchedUser; // to see the user that got searched in the search/dm feature
+    private static String searchedUser; // to see the user that got searched in the search/dm feature
+    private static JScrollPane scrollPane;
 
 
     // background pane
@@ -57,6 +58,9 @@ public class Messagelist extends JFrame {
         panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Users", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
         //setting x,y axis and width and height of panel
         panel.setBounds(243, 29, 206, 230);
+
+
+
 
         //adding that title panel to background panel
         contentPane.add(panel);
@@ -90,7 +94,7 @@ public class Messagelist extends JFrame {
             }
 
         };
-        Timer timer = new Timer(1000, animation);
+        Timer timer = new Timer(10, animation);
         timer.start();
 
         //creates a Mouse Listener if the user gets clicked on
