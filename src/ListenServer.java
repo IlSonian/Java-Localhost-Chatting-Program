@@ -8,69 +8,69 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 public class ListenServer extends Thread{
-	  private BufferedReader reader;
-	    private Socket socket;
-	    private Login client;
-	 
-	    public ListenServer(Socket socket, Login client) {
-	        this.socket = socket;
-	        this.client = client;
-	 
-	        try {
-	            InputStream input = socket.getInputStream();
-	            reader = new BufferedReader(new InputStreamReader(input));
-	        } catch (IOException ex) {
-	            ex.printStackTrace();
-	        }
-	    }
-	    public static boolean isNumeric(String str) { 
-	    	  try {  
-	    	    Integer.parseInt(str);  
-	    	    return true;
-	    	  } catch(NumberFormatException e){  
-	    	    return false;  
-	    	  }  
-	    	}
-	    
-	    public void run() {
-	        while (true) {
-	            try {
-	                String response = reader.readLine();
-	                System.out.println("Received conversation from server: "+response);
-	                if (!response.substring(0,2).equals("in") && !response.substring(0,2).equals("up"))
-	                if (response.length() >=4)
-	                if (isNumeric(response.substring(0,4)) ) {
-	                	try {
-		                   Chat.setSendMessage(response);
-	                	} catch (Exception e) {
-	                		Messagelist.userlist.setForeground(Color.red);
-	                	}
-	                }
-	                
-	                
-	                String td = response.substring(0,1);
-	                if (td.equals("!")) {
-	                	//System.out.println("Wrong password");
-	                   
-	                	//Login.in = (false);
-	                	ReceiverFromUser.in = (false);
-	                }
-	                else if (td.equals("$")){
-	                	//Login.in =(true);
-	                	ReceiverFromUser.in = (true);
+	private BufferedReader reader;
+	private Socket socket;
+	private Login client;
 
-	                	System.out.println("Correct password");
-	                	ReceiverFromUser.importUserfromServer(response.substring(response.indexOf("#")+1));
-	                    System.out.println("\n" + response);     
-	               }
-	                else if (td.equals("#")) {
-	                	ReceiverFromUser.importUserfromServer(response.substring(response.indexOf("#")+1));
-	                    System.out.println("\n received users and group:" + response); 
-	                }
-	            } catch (IOException ex) {
-	                ex.printStackTrace();
-	                break;
-	            }
-	        }
-	    }
+	public ListenServer(Socket socket, Login client) {
+		this.socket = socket;
+		this.client = client;
+
+		try {
+			InputStream input = socket.getInputStream();
+			reader = new BufferedReader(new InputStreamReader(input));
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+	public static boolean isNumeric(String str) { 
+		try {  
+			Integer.parseInt(str);  
+			return true;
+		} catch(NumberFormatException e){  
+			return false;  
+		}  
+	}
+
+	public void run() {
+		while (true) {
+			try {
+				String response = reader.readLine();
+				System.out.println("Received conversation from server: "+response);
+				if (!response.substring(0,2).equals("in") && !response.substring(0,2).equals("up"))
+					if (response.length() >=4)
+						if (isNumeric(response.substring(0,4)) ) {
+							try {
+								Chat.setSendMessage(response);
+							} catch (Exception e) {
+								Messagelist.userlist.setForeground(Color.red);
+							}
+						}
+
+
+				String td = response.substring(0,1);
+				if (td.equals("!")) {
+					//System.out.println("Wrong password");
+
+					//Login.in = (false);
+					ReceiverFromUser.in = (false);
+				}
+				else if (td.equals("$")){
+					//Login.in =(true);
+					ReceiverFromUser.in = (true);
+
+					System.out.println("Correct password");
+					ReceiverFromUser.importUserfromServer(response.substring(response.indexOf("#")+1));
+					System.out.println("\n" + response);     
+				}
+				else if (td.equals("#")) {
+					ReceiverFromUser.importUserfromServer(response.substring(response.indexOf("#")+1));
+					System.out.println("\n received users and group:" + response); 
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+				break;
+			}
+		}
+	}
 }

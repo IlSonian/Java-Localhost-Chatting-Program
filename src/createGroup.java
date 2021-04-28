@@ -29,111 +29,111 @@ import javax.swing.AbstractListModel;
 
 public class createGroup extends JFrame {
 
-    StringBuilder selectedUsers = new StringBuilder();
+	StringBuilder selectedUsers = new StringBuilder();
 
-    static JList allUsers;
-    JPanel panel;
-    static ArrayList<String> users = new ArrayList<>();
-    private JPanel contentPane;
+	static JList allUsers;
+	JPanel panel;
+	static ArrayList<String> users = new ArrayList<>();
+	private JPanel contentPane;
 
 
-    public createGroup(String[] array) {
+	public createGroup(String[] array) {
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setBounds(100, 100, 743, 446);
+		setBounds(100, 100, 743, 446);
 
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        setLocationRelativeTo(null);
-        contentPane.setLayout(null);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		setLocationRelativeTo(null);
+		contentPane.setLayout(null);
 
-        // creating title panel
-        panel = new JPanel();
-        panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Choose Group Members.", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-        //setting x,y axis and width and height of panel
-        panel.setBounds(243, 29, 206, 230);
+		// creating title panel
+		panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Choose Group Members.", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		//setting x,y axis and width and height of panel
+		panel.setBounds(243, 29, 206, 230);
 
-        contentPane.add(panel);
-        panel.setLayout(null);
+		contentPane.add(panel);
+		panel.setLayout(null);
 
-        allUsers = new JList(ReceiverFromUser.getAllUsers());
-  
+		allUsers = new JList(ReceiverFromUser.getAllUsers());
 
-        allUsers.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-        allUsers.setBounds(10, 47, 186, 173);
+		allUsers.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-        panel.add(allUsers);
+		allUsers.setBounds(10, 47, 186, 173);
 
-        JButton btn_back = new JButton("Back");
+		panel.add(allUsers);
 
-        //setting x,y axis and width and height of button
-        btn_back.setBounds(243, 292, 206, 33);
+		JButton btn_back = new JButton("Back");
 
-        contentPane.add(btn_back);
+		//setting x,y axis and width and height of button
+		btn_back.setBounds(243, 292, 206, 33);
 
-        //action of account button
-        btn_back.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                //creating object of account class
-                Messagelist msg = new Messagelist();
-                msg.setVisible(true);
+		contentPane.add(btn_back);
 
-                //close current GUI
-                dispose();
-            }
-        });
+		//action of account button
+		btn_back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//creating object of account class
+				Messagelist msg = new Messagelist();
+				msg.setVisible(true);
 
-        JButton addToGroup = new JButton("Add to group");
-        addToGroup.setBounds(10, 25, 105, 21);
-        panel.add(addToGroup);
+				//close current GUI
+				dispose();
+			}
+		});
 
-        //get the selected users and open the next GUI that prompts the user for the group name
+		JButton addToGroup = new JButton("Add to group");
+		addToGroup.setBounds(10, 25, 105, 21);
+		panel.add(addToGroup);
 
-        addToGroup.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-               try {
-                   System.out.println("Selected users: ");
-                   List index = allUsers.getSelectedValuesList();
-                   test ( (ArrayList<String>)index);
-                   users = (ArrayList<String>) index;
-                   System.out.println(users); // this outputs the users selected (just to check, it is correct)
+		//get the selected users and open the next GUI that prompts the user for the group name
 
-                   //creating object of login class
-                   Chat chat = new Chat(users.toString());
-                   
-                   //GroupName groupName = new GroupName();
-                   chat.setVisible(true);
+		addToGroup.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					System.out.println("Selected users: ");
+					List index = allUsers.getSelectedValuesList();
+					test ( (ArrayList<String>)index);
+					users = (ArrayList<String>) index;
+					System.out.println(users); // this outputs the users selected (just to check, it is correct)
 
-                   //close current GUI
-                   dispose();
-               } catch (Exception exception) {
-                   JOptionPane.showMessageDialog(
-                           null, "Please select at least one participant", "Error", JOptionPane.ERROR_MESSAGE);
-               }
+					//creating object of login class
+					Chat chat = new Chat(users.toString());
 
-            }
+					//GroupName groupName = new GroupName();
+					chat.setVisible(true);
 
-        });
+					//close current GUI
+					dispose();
+				} catch (Exception exception) {
+					JOptionPane.showMessageDialog(
+							null, "Please select at least one participant", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 
-    }
-    static void test(ArrayList<String> index) {
-        users = index;
-    }
+			}
 
-    public createGroup() {
+		});
 
-    }
+	}
+	static void test(ArrayList<String> index) {
+		users = index;
+	}
 
-    //Method to get the users selected to create the group
-    //TODO: figure out the issue as to why it's not converting the ArrayList to a String properly
-    public String selectedGroupUsers(ArrayList<String> users) {
+	public createGroup() {
 
-        for (String all : users) {
-            selectedUsers.append(all).append("\t");
-        }
-        return selectedUsers.toString();
-    }
+	}
+
+	//Method to get the users selected to create the group
+	//TODO: figure out the issue as to why it's not converting the ArrayList to a String properly
+	public String selectedGroupUsers(ArrayList<String> users) {
+
+		for (String all : users) {
+			selectedUsers.append(all).append("\t");
+		}
+		return selectedUsers.toString();
+	}
 }
