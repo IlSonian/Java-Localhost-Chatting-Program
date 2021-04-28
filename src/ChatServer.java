@@ -3,6 +3,7 @@ import java.net.*;
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime;  
 import java.util.*;
+import java.util.Arrays;
 
 public class ChatServer {
    
@@ -317,11 +318,13 @@ public class ChatServer {
         	 for (UserThread user : userThreads) {
               for (int ii = 0; ii < userGroup.length; ii++)
         		 if (user.getUsername().equals(userGroup[ii])) {
-        			 user.sendMessage(time+" "+whosent + " -> "  + d+": "+c);
-        			 
-        			 
+        			 user.sendMessage(time+" "+whosent + " -> "  + d+": "+c);      			 
+                     
                  }                
                }
+        	 
+        	 
+        	 writeToFile2(whosent, (userGroup), time+" "+whosent + " -> "  + d+": "+c);
         }
         
         if (privateConverse) {       
@@ -360,6 +363,49 @@ public class ChatServer {
         */
     }
 
+    void loadUserData2(String sender, String receiver, UserThread user) {
+    	sender = sender.replace("[","");
+    	sender = sender.replace("]","");
+    	
+    
+    	receiver = receiver.replace("[", "");
+    	receiver = receiver.replace("]", "");
+    	String[] array = receiver.split(",");
+        for (int i = 0; i < array.length; i++) {
+            array[i] =  array[i].trim();
+        }
+    	Arrays.sort(array);
+    	File readfrom1 = new File(sender+"->"+Arrays.toString(array)+".txt");
+    	File[] filer = new File[array.length];
+    	
+    	for (int i = 0; i < filer.length; i++) {
+    		filer[i] = new File(array[i]+"->"+Arrays.toString(array)+".txt");
+        	try {
+        		if (filer[i].exists()) {
+            		
+            		FileInputStream fstream = new FileInputStream(filer[i]);
+            		BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+
+            		String strLine;
+
+            		//Read File Line By Line
+            		while ((strLine = br.readLine()) != null)   {
+            			 user.sendMessage(strLine);
+            		}
+                    
+            		//Close the input stream
+            		fstream.close();		
+            	  }
+        		
+            	} catch (Exception e) {
+            		
+            	}
+    	}
+    	
+
+    }
+    
+    
     void loadUserData(String sender, String receiver, UserThread user) {
     	sender = sender.replace("[","");
     	sender = sender.replace("]","");
@@ -407,6 +453,21 @@ public class ChatServer {
     	
     }
  
+    void writeToFile2(String sender, String[] receiver, String content) {
+    	sender = sender.replace("[","");
+    	sender = sender.replace("]","");
+    	Arrays.sort(receiver);
+    	try(FileWriter fw = new FileWriter(sender+"->"+Arrays.toString(receiver)+".txt", true);
+    		    BufferedWriter bw = new BufferedWriter(fw);
+    		    PrintWriter out = new PrintWriter(bw))
+    		{
+    		    out.println(content);
+    		    //more code
+    		} catch (IOException e) {
+    			
+    		}
+    }
+    
     
     void writeToFile(String sender, String receiver, String content) {
     	sender = sender.replace("[","");
