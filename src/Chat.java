@@ -7,6 +7,10 @@ import javax.swing.border.EtchedBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -22,6 +26,10 @@ public class Chat extends JFrame {
     private JTextField messagetext;
     String sendDm;
     JButton sendButton;
+    JButton exportButton;
+    JButton importdata;
+
+    
     static JTextArea chatArea;
     private static JScrollPane scrollPane;
     ActionListener actionListener = new ActionListener() {
@@ -42,6 +50,48 @@ public class Chat extends JFrame {
                     e1.printStackTrace();
                 }
 
+            }
+            if (e.getSource() == importdata) {
+            	String line = "";  
+
+            	try   
+            	{  
+            	//parsing a CSV file into BufferedReader class constructor  
+            	BufferedReader br = new BufferedReader(new FileReader("data.csv"));  
+            	while ((line = br.readLine()) != null)   //returns a Boolean value  
+            	{  
+                         // use comma as separator  
+            		setSendMessage(line.replace(",", " "));
+            	}  
+            	}   
+            	catch (IOException e1)   
+            	{  
+            	e1.printStackTrace();  
+            	}  
+
+            	
+            	
+            	
+            }
+            if (e.getSource() == exportButton) {
+  		      try (PrintWriter writer = new PrintWriter(new File("data.csv"))) {
+
+  		        StringBuilder sb = new StringBuilder();
+  		        String headerForStuff = "Date, Time, User, Content";
+  		        sb.append(headerForStuff);
+  		        sb.append('\n');
+  		        sb.append(chatArea.getText().replace(" ", ","));
+  		        sb.append('\n');
+
+  		        writer.write(sb.toString());
+
+  		      JOptionPane.showMessageDialog(
+                      null, "Your file is at your current directory", "Done", JOptionPane.INFORMATION_MESSAGE);
+
+  		      } catch (FileNotFoundException e3) {
+  		        System.out.println(e3.getMessage());
+  		      }
+            	
             }
         }
     };
@@ -136,6 +186,18 @@ public class Chat extends JFrame {
         // create send button to send message
         sendButton = new JButton("SEND");
 
+        importdata = new JButton("Import chat");
+
+        
+        importdata.setBounds(217, 300, 112, 29);
+ 
+
+        importdata.addActionListener(actionListener);
+
+
+        panel.add(importdata);
+
+        
         //setting x,y axis and width and height of send button
         sendButton.setBounds(217, 269, 112, 29);
         sendButton.addActionListener(actionListener);
@@ -143,14 +205,15 @@ public class Chat extends JFrame {
         panel.add(sendButton);
 
         // create export button
-        JButton exportButton = new JButton("Export");
+        exportButton = new JButton("Export");
 
         //setting x,y axis and width and height of export button
         exportButton.setBounds(571, 358, 119, 31);
 
         //adding buttton to background pane
         contentPane.add(exportButton);
-
+        
+        exportButton.addActionListener(actionListener);
         // TODO: add action listener if user clicks on send button
         sendButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
