@@ -60,8 +60,6 @@ public class Messagelist extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
 
-
-
         DefaultListModel<String> model = new DefaultListModel<>();
         for (String s : (ReceiverFromUser.getAllUsers())) {
             model.addElement(s);
@@ -153,10 +151,13 @@ public class Messagelist extends JFrame {
                 String searchedUser = txtSearch.getText();
     
 
+                if (Arrays.asList(ReceiverFromUser.buarray).contains(searchedUser)) {
+
                     Chat chat = new Chat(txtSearch.getText());
                     chat.setVisible(true);
                     dispose();
-
+                } else JOptionPane.showMessageDialog(
+                        null, "Username does not exist", "Error", JOptionPane.ERROR_MESSAGE);
 
             }
         });
@@ -176,9 +177,9 @@ public class Messagelist extends JFrame {
 
                     List<String> list = new ArrayList<>(Arrays.asList(ReceiverFromUser.array));
                     list.remove(index);
-
                     ReceiverFromUser.array = list.toArray(new String[0]);
-                }
+                } else JOptionPane.showMessageDialog(
+                        null, "Username does not exist to be removed", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 

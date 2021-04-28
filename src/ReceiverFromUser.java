@@ -5,6 +5,9 @@ public class ReceiverFromUser {
 	
 	
 	 static String[] array; 
+	 
+	 static String[] buarray; 
+	 
 	 static Socket socket;
 	 static boolean in = false;
 	 static String myUsername = "";
@@ -18,7 +21,12 @@ public class ReceiverFromUser {
 	 static public Socket getSocket() {
 		 return socket;
 	 }
+	 static int i = 0;
 	 static String[] getAllUsers() {
+		 if (i==0) {
+		 buarray = array;
+         i = 1;		 
+		 }
 		 return array;
 	 }
 	 
