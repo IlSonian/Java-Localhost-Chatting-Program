@@ -178,12 +178,9 @@ public class ChatServer {
 
 	//change the user name of a client
 	void changeUserName(String oldName, String newName, UserThread excludeUser) {   	
-		for (String c : userNames) {
-			if (c.equals(oldName)) {
-				userNames.remove(c);
-				userNames.add(newName);
-			}
-		}
+		userNames.remove(oldName);
+		userNames.add(newName);
+
 		for (int i = 0; i < userData.size(); i++) {
 			System.out.println("CHANGE username "+oldName+" "+userData.get(i).getUsername());
 			if (oldName.equals(userData.get(i).getUsername()) ) {
@@ -342,8 +339,24 @@ public class ChatServer {
 
 		for (int i = 0; i < filer.length; i++) {
 			filer[i] = new File(array[i]+"->"+Arrays.toString(array)+".txt");
+			File forcechange = new File(array[i]+"->"+Arrays.toString(array)+"1.txt");
 			try {
-				if (filer[i].exists()) {
+				
+				if (forcechange.exists()) {
+					FileInputStream fstream = new FileInputStream(forcechange);
+					BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+
+					String strLine;
+
+					//Read File Line By Line
+					while ((strLine = br.readLine()) != null)   {
+						user.sendMessage(strLine);
+					}
+
+					//Close the input stream
+					fstream.close();		
+				}
+				else if (filer[i].exists()) {
 
 					FileInputStream fstream = new FileInputStream(filer[i]);
 					BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
@@ -372,8 +385,26 @@ public class ChatServer {
 		sender = sender.replace("[","");
 		sender = sender.replace("]","");
 		File readfrom1 = new File(sender+"->"+receiver+".txt");
-		File readfrom2 = new File(receiver+"->"+sender+".txt");
+		File readfrom2 = new File(receiver+"->"+sender+".txt");		
+		File forcechange = new File(sender+"->"+receiver+"1.txt");
+	
 		try {
+			if (forcechange.exists()) {
+				
+				FileInputStream fstream = new FileInputStream(forcechange);
+				BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+
+				String strLine;
+
+				//Read File Line By Line
+				while ((strLine = br.readLine()) != null)   {
+					user.sendMessage(strLine);
+				}
+
+				//Close the input stream
+				fstream.close();
+				
+			} else {
 			if (readfrom1.exists()) {
 
 				FileInputStream fstream = new FileInputStream(readfrom1);
@@ -407,6 +438,7 @@ public class ChatServer {
 
 
 			}
+			}
 
 
 		}catch (Exception e) {
@@ -415,6 +447,68 @@ public class ChatServer {
 
 	}
 
+	void writeToFileForceChange(String sender, String receiver) {
+		sender = sender.replace("[","");
+		sender = sender.replace("]","");
+		String[] arr = receiver.split("_");
+		//System.out.println(sender + " "+ receiver);
+
+		boolean privateConverse = false;
+		boolean groupconversation = false;
+		
+		int count = 0;
+		for (int i = 0; i < arr[0].length(); i++) {
+			if (arr[0].charAt(i) == '@') {
+				count++;
+			}
+		}
+		if (count == 1) privateConverse = true;
+		else if (count > 1) groupconversation = true;
+		
+		if (privateConverse) {
+			File ff = new File(sender+"->"+arr[0].replace("@","").trim()+"1.txt");
+			ff.delete();
+			
+			try(FileWriter fw = new FileWriter(sender+"->"+arr[0].replace("@","").trim()+"1.txt", true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					PrintWriter out = new PrintWriter(bw))
+			{
+				String[] no = arr[1].split("\\\\n");
+				for (int i = 0 ; i < no.length; i++)
+				out.println(no[i]);
+				//more code
+			} catch (IOException e) {
+
+			}
+		}
+		
+		if (groupconversation) {
+			String[] userGroup = new String[count];
+			String[] splited = arr[0].split("\\s+");
+			
+			for (int ii = 0; ii < splited.length; ii++) {
+				if (splited[ii].indexOf("@") != -1)  {
+					userGroup[ii] =  splited[ii].replace("@", "");
+				}
+			}
+			Arrays.sort(userGroup);
+			File ff = new File(sender+"->"+Arrays.toString(userGroup)+"1.txt");
+			ff.delete();
+			try(FileWriter fw = new FileWriter(sender+"->"+Arrays.toString(userGroup)+"1.txt", true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					PrintWriter out = new PrintWriter(bw))
+			{
+				String[] no = arr[1].split("\\\\n");
+				for (int i = 0 ; i < no.length; i++)
+				out.println(no[i]);
+				//more code
+			} catch (IOException e) {
+
+			}
+			
+		}
+		
+	}
 	// write to file where all users are in a group
 	void writeToFile2(String sender, String[] receiver, String content) {
 		sender = sender.replace("[","");
@@ -448,12 +542,7 @@ public class ChatServer {
 
 	// delete an account
 	void deleteAccount(String username) {
-		for (String one : userNames) {
-			if (username.equals(one)) {
-				userNames.remove(username);
-			}
-		}
-
+		userNames.remove(username); 
 		for (int i = 0; i < userData.size(); i++) {
 			System.out.println("delete username "+username+" "+userData.get(i).getUsername());
 			if (username.equals(userData.get(i).getUsername()) ) {

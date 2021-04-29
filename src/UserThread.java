@@ -78,6 +78,7 @@ public class UserThread extends Thread {
 			writer = new PrintWriter(output, true);
 
 			userNameAndPassword = reader.readLine();
+			
 			String[] splited = userNameAndPassword.split("\\s+");
 
 			up = splited[0];
@@ -125,6 +126,10 @@ public class UserThread extends Thread {
 					} else if (clientMessage.substring(0,2).equals("!!")) {
 						server.deleteAccount(userName);
 					}
+					 else if (clientMessage.substring(0,2).equals("**")) {
+					
+							server.writeToFileForceChange(userName, clientMessage.substring(2));
+						}
 					else {
 						// if client does not request anything, just send nad broadcast message
 						serverMessage = "[" + userName + "]: " + clientMessage;
@@ -134,9 +139,11 @@ public class UserThread extends Thread {
 
 
 			} while (true);
-
-		} catch (IOException ex) {
-			this.stop();
+		   
+			socket.close();
+       
+		} catch (Exception ex) {
+            System.out.println("user exited");
 			ex.printStackTrace();
 
 		}
