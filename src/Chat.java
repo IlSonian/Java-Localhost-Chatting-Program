@@ -21,9 +21,9 @@ import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 
 /**
- * Account.java
+ * Chat.java
  * <p>
- * account class
+ * chat class
  * <p>
  * a list of your sources of help (if any)
  *
