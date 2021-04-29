@@ -78,7 +78,8 @@ public class Chat extends JFrame implements DocumentListener{
 				LocalDateTime now = LocalDateTime.now();  
 
 				String time = dtf.format(now);
-
+                
+                
 				chatArea.append( time + " ["+ReceiverFromUser.myUsername +"]: "+ messagetext.getText() + "\n" );
 				OutputStream output;
 				try {

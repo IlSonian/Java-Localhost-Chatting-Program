@@ -60,6 +60,7 @@ public class Login extends JFrame {
 					ReceiverFromUser.myUsername = txt_username.getText();
 					ReceiverFromUser.mypassword = String.valueOf(txt_password.getPassword());
 					Messagelist obj = new Messagelist();
+
 					obj.setVisible(true);
 					//close current gui
 					dispose();

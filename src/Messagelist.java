@@ -97,6 +97,7 @@ public class Messagelist extends JFrame {
 					clickedName = (String) userlist.getSelectedValue();
 					System.out.println(userlist.getSelectedValue());
 					String grouppy = (String) userlist.getSelectedValue();
+					if (grouppy != null)
 					if (grouppy.substring(0, 1).equals("{")) {
 						grouppy = grouppy.replace("{", "[");
 						grouppy = grouppy.replace("}", "]");
