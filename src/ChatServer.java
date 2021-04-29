@@ -76,14 +76,16 @@ public class ChatServer {
 
                }
            } */
+		
+		
 
 		// for all the users currently connected to the server 
-		for (UserThread user : userThreads) {
-
-
+		//for (UserThread user : userThreads) {
 			// send the data to client with the list of users and servers in this form: {name; of; users}, {another; group}, [users, present]
-			user.sendMessage("#"+getAllGroup(user) +", "+getUserNames());
-		}
+			
+			giveListOfUsers("#"+getUserNames() );
+			//user.sendMessage("#"+getAllGroup(user) +", "+getUserNames());
+		//}
 	}
 
 	// loop through the array list to see if the username exist before
@@ -144,15 +146,46 @@ public class ChatServer {
 		return allgrou;
 	}
 
+	void setUsetDontAppear(String sender, String listUsers) {
+		sender = sender.replace("[","");
+		sender = sender.replace("]","");
+		for (int i = 0; i< userData.size(); i++) {
+			if (sender.equals(userData.get(i).getUsername())) {
+				userData.get(i).addHiddenUsers(listUsers);
+			}
+		}
+	}
 
 	// give a list of users to  clients 
 
-	void giveListOfUsers(String message, UserThread excludeUser) {
+	void giveListOfUsers(String message) {
 		for (UserThread user : userThreads) {
+			/*
 			if (user == excludeUser) {
 				user.sendMessage(message);
 			}
-			user.sendMessage(message +", "+ getAllGroup(user));
+			 */
+			String toSend = message +", "+ getAllGroup(user);
+            String second = toSend;
+			toSend = toSend.replace("[","");
+			toSend = toSend.replace("]","");
+			toSend = toSend.replace("#","");
+			
+			String[] split = toSend.split(",");
+
+			for (int i = 0; i< userData.size(); i++) {
+				if (user.getUsername().equals(userData.get(i).getUsername())) {
+					for (int j = 0; j < split.length; j++) {
+						split[j] = split[j].trim();
+						if (userData.get(i).getHiddenUser().contains(split[j])) {
+							split[j] = "";
+						}
+					}
+				}
+			}
+			
+
+			user.sendMessage("#"+Arrays.toString(split));
 		}
 
 	}
@@ -341,7 +374,7 @@ public class ChatServer {
 			filer[i] = new File(array[i]+"->"+Arrays.toString(array)+".txt");
 			File forcechange = new File(array[i]+"->"+Arrays.toString(array)+"1.txt");
 			try {
-				
+
 				if (forcechange.exists()) {
 					FileInputStream fstream = new FileInputStream(forcechange);
 					BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
@@ -387,10 +420,10 @@ public class ChatServer {
 		File readfrom1 = new File(sender+"->"+receiver+".txt");
 		File readfrom2 = new File(receiver+"->"+sender+".txt");		
 		File forcechange = new File(sender+"->"+receiver+"1.txt");
-	
+
 		try {
 			if (forcechange.exists()) {
-				
+
 				FileInputStream fstream = new FileInputStream(forcechange);
 				BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 
@@ -403,41 +436,41 @@ public class ChatServer {
 
 				//Close the input stream
 				fstream.close();
-				
+
 			} else {
-			if (readfrom1.exists()) {
+				if (readfrom1.exists()) {
 
-				FileInputStream fstream = new FileInputStream(readfrom1);
-				BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+					FileInputStream fstream = new FileInputStream(readfrom1);
+					BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 
-				String strLine;
+					String strLine;
 
-				//Read File Line By Line
-				while ((strLine = br.readLine()) != null)   {
-					user.sendMessage(strLine);
+					//Read File Line By Line
+					while ((strLine = br.readLine()) != null)   {
+						user.sendMessage(strLine);
+					}
+
+					//Close the input stream
+					fstream.close();		
 				}
 
-				//Close the input stream
-				fstream.close();		
-			}
+				if (readfrom2.exists()) {
 
-			if (readfrom2.exists()) {
+					FileInputStream fstream = new FileInputStream(readfrom2);
+					BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 
-				FileInputStream fstream = new FileInputStream(readfrom2);
-				BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+					String strLine;
 
-				String strLine;
+					//Read File Line By Line
+					while ((strLine = br.readLine()) != null )   {
+						user.sendMessage(strLine);
+					}
 
-				//Read File Line By Line
-				while ((strLine = br.readLine()) != null )   {
-					user.sendMessage(strLine);
+					//Close the input stream
+					fstream.close();	
+
+
 				}
-
-				//Close the input stream
-				fstream.close();	
-
-
-			}
 			}
 
 
@@ -455,7 +488,7 @@ public class ChatServer {
 
 		boolean privateConverse = false;
 		boolean groupconversation = false;
-		
+
 		int count = 0;
 		for (int i = 0; i < arr[0].length(); i++) {
 			if (arr[0].charAt(i) == '@') {
@@ -464,28 +497,28 @@ public class ChatServer {
 		}
 		if (count == 1) privateConverse = true;
 		else if (count > 1) groupconversation = true;
-		
+
 		if (privateConverse) {
 			File ff = new File(sender+"->"+arr[0].replace("@","").trim()+"1.txt");
 			ff.delete();
-			
+
 			try(FileWriter fw = new FileWriter(sender+"->"+arr[0].replace("@","").trim()+"1.txt", true);
 					BufferedWriter bw = new BufferedWriter(fw);
 					PrintWriter out = new PrintWriter(bw))
 			{
 				String[] no = arr[1].split("\\\\n");
 				for (int i = 0 ; i < no.length; i++)
-				out.println(no[i]);
+					out.println(no[i]);
 				//more code
 			} catch (IOException e) {
 
 			}
 		}
-		
+
 		if (groupconversation) {
 			String[] userGroup = new String[count];
 			String[] splited = arr[0].split("\\s+");
-			
+
 			for (int ii = 0; ii < splited.length; ii++) {
 				if (splited[ii].indexOf("@") != -1)  {
 					userGroup[ii] =  splited[ii].replace("@", "");
@@ -500,14 +533,14 @@ public class ChatServer {
 			{
 				String[] no = arr[1].split("\\\\n");
 				for (int i = 0 ; i < no.length; i++)
-				out.println(no[i]);
+					out.println(no[i]);
 				//more code
 			} catch (IOException e) {
 
 			}
-			
+
 		}
-		
+
 	}
 	// write to file where all users are in a group
 	void writeToFile2(String sender, String[] receiver, String content) {

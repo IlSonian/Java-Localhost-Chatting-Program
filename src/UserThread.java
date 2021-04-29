@@ -23,7 +23,7 @@ public class UserThread extends Thread {
 		return userName;
 	}
    // login and check credentials
-	public void login(BufferedReader reader) throws IOException {
+	public void login(BufferedReader reader) throws Exception {
 
 		while (up.equals("in") && !server.checkUserNameAndPassword(userName, password)) {
 			userNameAndPassword = reader.readLine();
@@ -41,12 +41,13 @@ public class UserThread extends Thread {
 		} else {
 			server.correctPass("Correct pass", this);   
 			String serverMessage = "#" + server.getUserNames();
-			server.giveListOfUsers(serverMessage, this);
+			Thread.sleep(1000);
+			server.giveListOfUsers(serverMessage);
 		}
 	}
 
 	//sing up 
-	public void signup (BufferedReader reader) throws IOException {
+	public void signup (BufferedReader reader) throws Exception {
 		System.out.println("sign up");
 		while(server.checkUserNameDuplication(userName) && up.equals("up")) { 
 			userNameAndPassword = reader.readLine();
@@ -63,7 +64,8 @@ public class UserThread extends Thread {
 			server.correctPass("Good", this);   
 			server.signUp(userName, password);
 			String serverMessage = "#" + server.getUserNames();
-			server.giveListOfUsers(serverMessage, this);
+			Thread.sleep(1000);
+			server.giveListOfUsers(serverMessage);
 		}
 
 	}
@@ -94,7 +96,7 @@ public class UserThread extends Thread {
 
 			server.addUserName(userName);
 			String serverMessage = "#" + server.getUserNames();
-			server.giveListOfUsers(serverMessage, this);
+			server.giveListOfUsers(serverMessage);
 
 
 			String clientMessage;
@@ -127,9 +129,11 @@ public class UserThread extends Thread {
 						server.deleteAccount(userName);
 					}
 					 else if (clientMessage.substring(0,2).equals("**")) {
-					
 							server.writeToFileForceChange(userName, clientMessage.substring(2));
-						}
+					}
+					 else if (clientMessage.substring(0,2).equals("*!")) {
+							server.setUsetDontAppear(userName, clientMessage.substring(2));
+					}
 					else {
 						// if client does not request anything, just send nad broadcast message
 						serverMessage = "[" + userName + "]: " + clientMessage;

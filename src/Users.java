@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Users {
       	 
@@ -5,13 +6,22 @@ public class Users {
       
 	  private String username;
 	  private String psswd;
+	  ArrayList<String> hiddenUsers = new ArrayList<>();
 	  public Users(String username, String psswd) {
     	  this.username = username;
     	  this.psswd = psswd;
-    	   
+    	  hiddenUsers.add("__"); 
       }
 	  public Users() {
 		  
+	  }
+	  
+	  public void addHiddenUsers(String hide) {
+		  hiddenUsers.add(hide);
+	  }
+	  
+	  public ArrayList<String> getHiddenUser() {
+		  return hiddenUsers;
 	  }
 	  
 	  public Group getUserGroup() {
