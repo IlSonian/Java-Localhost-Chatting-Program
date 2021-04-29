@@ -17,6 +17,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 
 public class Chat extends JFrame implements DocumentListener{
@@ -72,7 +74,12 @@ public class Chat extends JFrame implements DocumentListener{
 
 			if (e.getSource() == sendButton) {
 				//creating object of messagelist class]
-				chatArea.append( "You: "+ messagetext.getText() + "\n" );
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+				LocalDateTime now = LocalDateTime.now();  
+
+				String time = dtf.format(now);
+
+				chatArea.append( time + " ["+ReceiverFromUser.myUsername +"]: "+ messagetext.getText() + "\n" );
 				OutputStream output;
 				try {
 					output = ReceiverFromUser.socket.getOutputStream();
