@@ -21,7 +21,7 @@ public class ChatServer {
 
 	//default port is 8989
 	public static void main(String[] args) {
-
+        
 		int port = 8989;
 		ChatServer server = new ChatServer(port);
 		server.execute();
@@ -116,6 +116,7 @@ public class ChatServer {
 	String getAllGroup(UserThread user) {
 		String allgrou = "";
 		//goes through to see if the users in the list connected to the server is in a group
+		try {
 		for (int i =0; i < group.size(); i++) {
 			for (int j = 0 ; j < group.get(i).getUserList().size(); j++) {
 				if (user.getUsername().equals(group.get(i).getUserList().get(j))) {
@@ -123,6 +124,9 @@ public class ChatServer {
 				}
 			}
 			//if found in group, add the group to the string, which is presented in this form {group; member; name}
+		}
+		}catch (Exception e) {
+			System.out.println("op");
 		}
 
 		// basically sort the list of groups

@@ -41,7 +41,7 @@ public class UserThread extends Thread {
 		} else {
 			server.correctPass("Correct pass", this);   
 			String serverMessage = "#" + server.getUserNames();
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 			server.giveListOfUsers(serverMessage);
 		}
 	}
@@ -64,7 +64,7 @@ public class UserThread extends Thread {
 			server.correctPass("Good", this);   
 			server.signUp(userName, password);
 			String serverMessage = "#" + server.getUserNames();
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 			server.giveListOfUsers(serverMessage);
 		}
 
