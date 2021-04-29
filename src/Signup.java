@@ -1,6 +1,3 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -8,7 +5,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.GridLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
@@ -16,6 +12,8 @@ import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -78,7 +76,21 @@ public class Signup extends JFrame {
 	public Signup(Socket socket) {
 		this.socket = socket;
 		// Action of end GUI
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+		      public void windowClosing(WindowEvent ev) {		    	   
+		             int i=JOptionPane.showConfirmDialog(null, "Exit?");
+		             if(i==0) {
+		            	//  try {
+								//socket.close();
+						//	} catch (IOException e) {
+								// TODO Auto-generated catch block
+						//		e.printStackTrace();
+						//	}
+		                 System.exit(0);	 
+		             }
+		      }
+		    });
 		setBounds(100, 100, 743, 446);
 
 		//create background pane

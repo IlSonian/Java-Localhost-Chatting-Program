@@ -16,6 +16,8 @@ import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +42,7 @@ public class Login extends JFrame {
 	//password field for user password
 	private JPasswordField txt_password;
 	ActionListener actionListener = new ActionListener() {
+		 
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -76,14 +79,30 @@ public class Login extends JFrame {
 			ReceiverFromUser.socket = socket;
 			new ListenServer(socket, this).start();
 		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null, "Cannot connect to server", "Error", JOptionPane.ERROR_MESSAGE);
+			//e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(
+					null, "Cannot connect to server", "Error", JOptionPane.ERROR_MESSAGE);
+			//e1.printStackTrace();
 		}
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+		      public void windowClosing(WindowEvent ev) {		    	   
+		             int i=JOptionPane.showConfirmDialog(null, "Exit?");
+		             if(i==0) {
+		            	  //try {
+								//socket.close();
+							//} catch (IOException e) {
+								// TODO Auto-generated catch block
+							//	e.printStackTrace();
+							//}
+		                 System.exit(0);	 
+		             }
+		      }
+		    });
 		setBounds(100, 100, 743, 446);
 
 		//create background pane

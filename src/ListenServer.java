@@ -68,7 +68,8 @@ public class ListenServer extends Thread{
 					System.out.println("\n received users and group:" + response); 
 				}
 			} catch (IOException ex) {
-				ex.printStackTrace();
+				//ex.printStackTrace();
+				System.out.println("Disconnected");
 				break;
 			}
 		}

@@ -1,4 +1,5 @@
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ReceiverFromUser {
 
@@ -11,6 +12,7 @@ public class ReceiverFromUser {
 	static boolean in = false;
 	static String myUsername = "";
 	static String mypassword = "";
+	static ArrayList<String> removedList = new ArrayList<>();
 
 	static public void assingSocket(Socket socket) {
 		ReceiverFromUser.socket = socket;

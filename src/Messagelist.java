@@ -1,11 +1,6 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.print.CancelablePrintJob;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
-import java.awt.GridLayout;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
@@ -70,15 +65,17 @@ public class Messagelist extends JFrame {
 		}
 
 		userlist = new JList(model);
-
+		ReceiverFromUser.removedList.add("____");
 		// creating list that will contain all users
 		ActionListener animation = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				model.removeAllElements();
 				for (String s : (ReceiverFromUser.getAllUsers())) {
-					if (!s.equals(searchedUser)) 
+					if (!ReceiverFromUser.removedList.contains(s)) 
 						model.addElement(s);
+				
+
 				}
 
 				repaint();
@@ -135,7 +132,7 @@ public class Messagelist extends JFrame {
 
 		userSeacrhLabel = new JLabel();
 		userSeacrhLabel.setText("Send DM/delete chat");
-		userSeacrhLabel.setBounds(80,50,105,21);
+		userSeacrhLabel.setBounds(80,50,170,21);
 		contentPane.add(userSeacrhLabel);
 
 		txtSearch = new JTextField();
@@ -151,13 +148,15 @@ public class Messagelist extends JFrame {
 
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				searchedUser = txtSearch.getText();
 
-
+				if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser) || ReceiverFromUser.removedList.contains(searchedUser)) {
 					Chat chat = new Chat(txtSearch.getText());
 					chat.setVisible(true);
 					dispose();
 			
-
+				} else JOptionPane.showMessageDialog(
+						null, "Username does not exist", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 
@@ -168,9 +167,10 @@ public class Messagelist extends JFrame {
 
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				searchedUser = txtSearch.getText();
-
+				searchedUser = txtSearch.getText();			
+				ReceiverFromUser.removedList.add(searchedUser);
+					
+				
 				if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser)) {
 					int index = model.indexOf(searchedUser);
 
@@ -221,6 +221,7 @@ public class Messagelist extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				//creating object of login class
+				ReceiverFromUser.in = false;
 				Login obj = new Login();
 				obj.setVisible(true);
 

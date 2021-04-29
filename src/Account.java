@@ -46,9 +46,13 @@ public class Account extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
+                String olduser = ReceiverFromUser.myUsername;
 				ReceiverFromUser.myUsername = usernametext.getText();
-
+                for (int i = 0; i < ReceiverFromUser.array.length; i ++) {
+                	if (olduser.equals(ReceiverFromUser.array[i])) {
+                		ReceiverFromUser.array[i] = ReceiverFromUser.myUsername;
+                	}
+                }
 			}
 
 			if (e.getSource() == deleteAccount) {
