@@ -16,9 +16,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Login.java
+ * Messagelist.java
  * <p>
- * login class
+ * message list class
  * <p>
  * a list of your sources of help (if any)
  *
