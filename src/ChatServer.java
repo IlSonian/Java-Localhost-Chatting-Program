@@ -11,6 +11,8 @@ import java.util.Arrays;
  * creates a chat server
  * <p>
  * a list of your sources of help (if any)
+ *  https://www.codejava.net/java-se/networking/how-to-create-a-chat-console-application-in-java-using-socket
+ *  https://github.com/abhi195/Chat-Server/blob/master/src/Server.java
  *
  * @author Project 5 group
  * @version 4/29/2021
@@ -18,10 +20,10 @@ import java.util.Arrays;
 public class ChatServer {
 
     private int port;
-    private Set<String> userNames = new HashSet<>();
+    private static Set<String> userNames = new HashSet<>();
     private Set<UserThread> userThreads = new HashSet<>();
-    private ArrayList<Users> userData = new ArrayList<Users>();
-    private ArrayList<Group> group = new ArrayList<Group>();
+    private static ArrayList<Users> userData = new ArrayList<Users>();
+    private static ArrayList<Group> group = new ArrayList<Group>();
 
 
     //start a port
@@ -29,9 +31,77 @@ public class ChatServer {
         this.port = port;
     }
 
-    //default port is 8989
-    public static void main(String[] args) {
+    
+    public void writeAllUserData() {
+	    File ff = new File("userData.txt");
+        ff.delete();
+    	for (int i = 0; i < userData.size(); i++) {
+    		try (FileWriter fw = new FileWriter("userData.txt", true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter out = new PrintWriter(bw)) {
+                   out.println(userData.get(i).getUsername() + " "+ userData.get(i).getPsswd() + " "+ userData.get(i).getHiddenUser());
+               //more code
+           } catch (IOException e) {
 
+           }
+    	}
+        ff = new File("groupData.txt");
+        ff.delete();
+        for (int i = 0; i < group.size(); i++) {
+    		try (FileWriter fw = new FileWriter("groupData.txt", true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter out = new PrintWriter(bw)) {
+                   out.println(group.get(i));
+               //more code
+           } catch (IOException e) {
+
+           }
+    	}
+    	
+    }
+    
+    //default port is 8989
+    public static void main(String[] args) throws IOException {
+        File ff = new File("userData.txt");
+        if (ff.exists()) {
+        	try (BufferedReader br = new BufferedReader(new FileReader(ff))) {
+        	    String line;
+        	    while ((line = br.readLine()) != null) {
+        	       String[] split = line.split(" ");
+        	          userNames.add(split[0]);
+        	          Users u = new Users(split[0], split[1]);
+        	          String che = split[2].replace("[", "");
+        	          che = che.replace("]", "");
+        	          String[] s = che.split(",");
+        	          ArrayList<String> hidden = new ArrayList<>();
+        	          for (int i = 0; i < s.length; i ++) {
+        	        	  s[i] = s[i].trim();
+        	        	  hidden.add(s[i]);
+        	          }
+        	          u.setHiddenUsers(hidden);
+        	          userData.add(u);
+        	    }
+        	}
+        }
+        ff = new File("groupData.txt");
+        if (ff.exists()) {
+        	try (BufferedReader br = new BufferedReader(new FileReader(ff))) {
+        	    String line;
+        	    while ((line = br.readLine()) != null) {
+        	    	  line = line.replace("[","");
+        	    	  line = line.replace("]","");
+        	          String[] split = line.split(";");
+        	          ArrayList<String> groupp = new ArrayList<>();
+        	          for (int i = 0; i < split.length; i ++) {
+        	        	  split[i] = split[i].trim();
+        	        	  groupp.add(split[i]);
+        	          }
+        	          Group g = new Group("GroupName", groupp);
+        	          group.add(g);   	       	  
+        	    }
+        	}
+        	
+        }
         int port = 8989;
         ChatServer server = new ChatServer(port);
         server.execute();

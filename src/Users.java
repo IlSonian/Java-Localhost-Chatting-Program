@@ -31,7 +31,10 @@ public class Users {
     public void addHiddenUsers(String hide) {
         hiddenUsers.add(hide);
     }
-
+    public void setHiddenUsers(ArrayList<String> hiddenUsers ) {
+    	this.hiddenUsers = hiddenUsers;
+    }
+    
     public ArrayList<String> getHiddenUser() {
         return hiddenUsers;
     }

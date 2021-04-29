@@ -81,7 +81,6 @@ public class UserThread extends Thread {
 
     }
 
-    @SuppressWarnings("deprecation")
     public void run() {
         try {
             InputStream input = socket.getInputStream();
@@ -147,6 +146,7 @@ public class UserThread extends Thread {
                         serverMessage = "[" + userName + "]: " + clientMessage;
                         server.broadcast(serverMessage, this);
                     }
+                    server.writeAllUserData();
                 }
 
 
