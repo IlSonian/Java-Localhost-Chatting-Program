@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.border.EtchedBorder;
 
@@ -17,7 +19,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
 
-public class Chat extends JFrame {
+public class Chat extends JFrame implements DocumentListener{
 
 	String[] array;
 	Messagelist messagelist = new Messagelist();
@@ -33,6 +35,36 @@ public class Chat extends JFrame {
 
 	static JTextArea chatArea;
 	private static JScrollPane scrollPane;
+	
+
+	public void forceChange() {
+		OutputStream output;
+		try {
+			output = ReceiverFromUser.socket.getOutputStream();
+			PrintWriter writer = new PrintWriter(output, true);
+			
+			writer.println("**"+sendDm.trim() + "_" + chatArea.getText().replaceAll("[\\\t|\\\n|\\\r]","\\\\n"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	}
+	
+	  public void insertUpdate(DocumentEvent e)
+	  {
+		  forceChange();
+	  }
+	  public void removeUpdate(DocumentEvent e)
+	  {
+		  forceChange();
+
+	  }
+	  public void changedUpdate(DocumentEvent e)
+	  {
+		  forceChange();
+
+	  }
 	ActionListener actionListener = new ActionListener() {
 
 		@Override
@@ -168,6 +200,7 @@ public class Chat extends JFrame {
 
 		//setting x,y axis and width and height of user chat text area
 		chatArea.setBounds(61, 60, 600, 200);
+		chatArea.getDocument().addDocumentListener(this);
 
 		//TODO: find out why the scroll pane is not working
 		// scrollPane = new JScrollPane();
