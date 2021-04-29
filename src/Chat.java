@@ -144,7 +144,11 @@ public class Chat extends JFrame implements DocumentListener{
 	//constructor of class containing gui code
 	public Chat(String talktoUser) {
 		sendDm = talktoUser;
-		JFrame f = new JFrame();
+		if(sendDm.substring(0,1).equals("{")) {
+			sendDm = sendDm.replace("{", "[");
+			sendDm = sendDm.replace("}", "]");
+			sendDm = sendDm.replace(";", ",");
+		}
 		if(sendDm.substring(0,1).equals("[")) {
 			sendDm = sendDm.replace("[", "");
 			sendDm = sendDm.replace("]", "");

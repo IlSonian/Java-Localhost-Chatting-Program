@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,6 +68,7 @@ public class Messagelist extends JFrame {
 		}
 
 		userlist = new JList(model);
+		
 		ReceiverFromUser.removedList.add("____");
 		// creating list that will contain all users
 		ActionListener animation = new ActionListener() {
@@ -150,13 +154,13 @@ public class Messagelist extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				searchedUser = txtSearch.getText();
 
-				if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser) || ReceiverFromUser.removedList.contains(searchedUser)) {
+			//	if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser) || ReceiverFromUser.removedList.contains(searchedUser)) {
 					Chat chat = new Chat(txtSearch.getText());
 					chat.setVisible(true);
 					dispose();
 			
-				} else JOptionPane.showMessageDialog(
-						null, "Username does not exist", "Error", JOptionPane.ERROR_MESSAGE);
+			//	} else JOptionPane.showMessageDialog(
+			//			null, "Username does not exist", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 
@@ -170,6 +174,16 @@ public class Messagelist extends JFrame {
 				searchedUser = txtSearch.getText();			
 				ReceiverFromUser.removedList.add(searchedUser);
 					
+				OutputStream output;
+				try {
+					output = ReceiverFromUser.socket.getOutputStream();
+					PrintWriter writer = new PrintWriter(output, true);
+					
+					writer.println("*!"+searchedUser);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				if (Arrays.asList(ReceiverFromUser.getAllUsers()).contains(searchedUser)) {
 					int index = model.indexOf(searchedUser);
