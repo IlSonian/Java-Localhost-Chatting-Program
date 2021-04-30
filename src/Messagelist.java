@@ -78,8 +78,10 @@ public class Messagelist extends JFrame {
         }
 
         userlist = new JList(model);
-
-        ReceiverFromUser.removedList.add("____");
+        if (ReceiverFromUser.removedList.size() > 0)
+            ReceiverFromUser.removedList.remove("____");
+        else 
+        	ReceiverFromUser.removedList.add("____");
         // creating list that will contain all users
         ActionListener animation = new ActionListener() {
             @Override
@@ -130,17 +132,6 @@ public class Messagelist extends JFrame {
         //adding list to title panel
         panel.add(userlist);
 
-        // creating combo box for searching any user
-        JComboBox allusersdropdown = new JComboBox();
-
-        //adding dummy data to dropdown
-        allusersdropdown.setModel(new DefaultComboBoxModel(new String[]{"All", "John", "Elizbath", "Jonathan"}));
-        //setting x,y axis and width and height of dropdown
-        allusersdropdown.setBounds(145, 16, 51, 21);
-
-        //adding dropdown to title panel
-        panel.add(allusersdropdown);
-
         JButton btnNewButton = new JButton("Create Group");
         btnNewButton.setBounds(10, 25, 105, 21);
         panel.add(btnNewButton);
@@ -184,7 +175,9 @@ public class Messagelist extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 searchedUser = txtSearch.getText();
                 ReceiverFromUser.removedList.add(searchedUser);
-
+                
+                ReceiverFromUser.removedList.remove("____");
+                
                 OutputStream output;
                 try {
                     output = ReceiverFromUser.socket.getOutputStream();
