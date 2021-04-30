@@ -50,7 +50,7 @@ public class UserThread extends Thread {
         if (up.equals("up")) {
             signup(reader);
         } else {
-            server.correctPass("Correct pass", this);
+            server.correctPass("Loading...", this); // prints out the loading msg if things are slow
             String serverMessage = "#" + server.getUserNames();
             Thread.sleep(2000);
             server.giveListOfUsers(serverMessage);
