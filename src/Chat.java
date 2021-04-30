@@ -42,6 +42,7 @@ public class Chat extends JFrame implements DocumentListener {
     JButton sendButton;
     JButton exportButton;
     JButton importdata;
+    JButton clearButton;
 
 
     static JTextArea chatArea;
@@ -82,6 +83,10 @@ public class Chat extends JFrame implements DocumentListener {
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource() == sendButton) {
+                if (messagetext.getText().replaceAll(" ", "").equals("")) {
+                    return;
+                } //checking if the message is empty
+
                 //creating object of messagelist class]
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
@@ -100,6 +105,8 @@ public class Chat extends JFrame implements DocumentListener {
                     e1.printStackTrace();
                 }
 
+                messagetext.setText("");
+
             }
             if (e.getSource() == importdata) {
                 String line = "";
@@ -114,11 +121,11 @@ public class Chat extends JFrame implements DocumentListener {
                         System.out.println("You chose to open this file: " +
                                 chooser.getSelectedFile().getName());
                     }
-                    //parsing a CSV file into BufferedReader class constructor  
+                    //parsing a CSV file into BufferedReader class constructor
                     BufferedReader br = new BufferedReader(new FileReader(chooser.getSelectedFile().getAbsolutePath()));
-                    while ((line = br.readLine()) != null)   //returns a Boolean value  
+                    while ((line = br.readLine()) != null)   //returns a Boolean value
                     {
-                        // use comma as separator  
+                        // use comma as separator
                         setSendMessage(line.replace(",", " "));
                     }
                 } catch (IOException e1) {
@@ -147,6 +154,13 @@ public class Chat extends JFrame implements DocumentListener {
                 }
 
             }
+            if (e.getSource() == clearButton) {
+                int answer = JOptionPane.showConfirmDialog(null, "Clearing the chat history will not " +
+                        "affect the history of other members. Continue?", "Continue?" ,JOptionPane.OK_CANCEL_OPTION);
+                if (answer == JOptionPane.OK_OPTION) {
+                    chatArea.setText("");
+                }
+            } //clearButton
         }
     };
 
@@ -257,6 +271,14 @@ public class Chat extends JFrame implements DocumentListener {
 
         panel.add(importdata);
 
+        //creating and adding the clearButton on the panel
+        clearButton = new JButton("Clear");
+
+        clearButton.setBounds(368, 269, 112, 29);
+
+        clearButton.addActionListener(actionListener);
+
+        panel.add(clearButton);
 
         //setting x,y axis and width and height of send button
         sendButton.setBounds(217, 269, 112, 29);
