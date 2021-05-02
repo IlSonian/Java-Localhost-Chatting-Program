@@ -3,11 +3,7 @@
    +            submits the source code on vocareum
 
 
-## Client: 
 
-   + Written in java
-   + Run the server first before running the client
-   + To run the server, just complie all the files and run it by doing java ChatServer
    
 
 ### Class Description for the client:
@@ -20,17 +16,24 @@ Write stuff here
 
 ### Class Description for the server:
 
-```ChatServer.java``` This class contains main method for the server. All the methods include create a group, check login credentials, delete an account, give the lists of users to the client, change username and password, broadcast messages, load and write file to server as well as clients.
+```ChatServer.java``` This class contains main method for the server. All the methods include create a group, check login credentials, delete an account, give the lists of users to the client, change username and password, broadcast messages, load and write file to server as well as clients. This class will start a thread class which is UserThread which listens to what the client says. ChatServer is also responsible for creating new Users class and Group class.
 
-```UserThread.java``` This class is a class that runs parallel with the chat server. It is a runnable. All the methods include add the usernames to the list, listens to what the client response and decide appropriate actions. 
+```UserThread.java``` This class is a class that runs parallel with the chat server. It is a runnable. All the methods include add the usernames to the list, listens to what the client response and decide appropriate actions. If the user requests some actions needed to be done, this class will direct that to the ChatServer class which contains most of the main fucntions of the server.
 
-```Users.java``` This class contains the data for all the users.
+```Users.java``` This class contains the data for all the users. This class will be created inside of the ChatServer class if there is a new user sign up to the system, which is notified by UserThread class to the ChatServer.
 
-```Group.java``` This class contains the data for all the groups that a user is in.
+```Group.java``` This class contains the data for all the groups that a user is in. This class will be created inside the ChatServer class if there is a new group messages which is notified by UserThread to the ChatServer.
 
 ### Testing done on the server 
 
 Write stuff here
+
+## Client: 
+
+   + Written in java
+   + Run the server first before running the client
+   + To run the server, just compile all the files and run it by doing java ChatServer
+   
 
 ## Server:
 
