@@ -27,9 +27,14 @@ import java.awt.event.ActionEvent;
  * <p>
  * a list of your sources of help (if any)
  *
+ * https://www.codota.com/code/java/classes/javax.swing.border.TitledBorder
+ * https://www.guru99.com/java-swing-gui.html
+ * https://www3.ntu.edu.sg/home/ehchua/programming/java/j4a_gui.html
+ *
  * @author Project 5 group
  * @version 4/29/2021
  */
+
 public class Chat extends JFrame implements DocumentListener {
 
     String[] array;
@@ -334,7 +339,6 @@ public class Chat extends JFrame implements DocumentListener {
 
     }
 
-    //creates a local method of the getClickedName, idk why (I was trying a bunch of things until this worked)
     public String getClickedName() {
         return messagelist.getClickedName();
     }

@@ -74,6 +74,9 @@ public class ListenServer extends Thread {
                 } else if (td.equals("#")) {
                     ReceiverFromUser.importUserfromServer(response.substring(response.indexOf("#") + 1));
                     System.out.println("\n received users and group:" + response);
+                } else if (td.equals("&")) {
+                	System.out.println(response.substring(1));
+                	ReceiverFromUser.errorLog = response.substring(1);
                 }
             } catch (IOException ex) {
                 //ex.printStackTrace();

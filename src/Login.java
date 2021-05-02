@@ -36,10 +36,14 @@ import java.awt.event.ActionEvent;
  * login class
  * <p>
  * a list of your sources of help (if any)
- *
+ * https://www.codota.com/code/java/classes/javax.swing.border.TitledBorder
+ * https://www.guru99.com/java-swing-gui.html
+ * https://www3.ntu.edu.sg/home/ehchua/programming/java/j4a_gui.html
+ * 
  * @author Project 5 group
  * @version 4/29/2021
  */
+
 public class Login extends JFrame {
 
     //main method to run the gui as thread
@@ -59,37 +63,39 @@ public class Login extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-        	if (e.getSource() == btn_login) {
-        		Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
-        		Matcher matcher = pattern.matcher(txt_username.getText());
-        		boolean specichar = matcher.find();
+            if (e.getSource() == btn_login) {
+                Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+                Matcher matcher = pattern.matcher(txt_username.getText());
+                boolean specichar = matcher.find();
 
-        		if (!specichar && !txt_username.getText().contains(" ")) {
-        			verifyServer();
-        			//creating object of messagelist class
-        			try {
-        				Thread.sleep(1000);
-        			} catch (InterruptedException e1) {
-        				// TODO Auto-generated catch block
-        				e1.printStackTrace();
-        			}
-        			if (ReceiverFromUser.in) {
-        				ReceiverFromUser.myUsername = txt_username.getText();
-        				ReceiverFromUser.mypassword = String.valueOf(txt_password.getPassword());
-        				Messagelist obj = new Messagelist();
+                if (!specichar && !txt_username.getText().contains(" ")) {
+                    verifyServer();
+                    //creating object of messagelist class
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    if (ReceiverFromUser.in) {
+                        ReceiverFromUser.myUsername = txt_username.getText();
+                        ReceiverFromUser.mypassword = String.valueOf(txt_password.getPassword());
+                        Messagelist obj = new Messagelist();
 
-        				obj.setVisible(true);
-        				//close current gui
-        				dispose();
-        			} else {
-        				JOptionPane.showMessageDialog(
-        						null, "Wrong password or username", "Error", JOptionPane.ERROR_MESSAGE);
-        			}
-        		} else {
-        			JOptionPane.showMessageDialog(
-        					null, "Username should not contain any special character or space", "Error", JOptionPane.ERROR_MESSAGE);
-        		}
-        	}
+                        obj.setVisible(true);
+                        //close current gui
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                null, "Wrong password or username", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(
+                            null, "Username should not contain any special character or space",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     };
 
@@ -110,6 +116,8 @@ public class Login extends JFrame {
             //e1.printStackTrace();
         }
 
+
+        // This System.exit is an if statement making sure that the user wants to shut down the program
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent ev) {
@@ -136,7 +144,9 @@ public class Login extends JFrame {
 
         // Title border panel
         JPanel panel = new JPanel();
-        panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Login", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255),
+                new Color(160, 160, 160)), "Login", TitledBorder.LEADING, TitledBorder.TOP, null,
+                new Color(0, 0, 0)));
         panel.setBounds(172, 68, 395, 230);
 
         //add title pane to content pane

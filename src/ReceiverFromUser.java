@@ -20,6 +20,7 @@ public class ReceiverFromUser {
     static String myUsername = "";
     static String mypassword = "";
     static ArrayList<String> removedList = new ArrayList<>();
+    static String errorLog = "";
 
     static public void assingSocket(Socket socket) {
         ReceiverFromUser.socket = socket;

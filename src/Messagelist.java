@@ -20,14 +20,20 @@ import java.util.List;
  * <p>
  * message list class
  * <p>
+ *     
  * a list of your sources of help (if any)
- *
+ * https://www.codota.com/code/java/classes/javax.swing.border.TitledBorder
+ * https://www.guru99.com/java-swing-gui.html
+ * https://www3.ntu.edu.sg/home/ehchua/programming/java/j4a_gui.html
+ * 
  * @author Project 5 group
  * @version 4/29/2021
  */
+
 public class Messagelist extends JFrame {
 
     static JList userlist;
+    private static String searchedUser; // to see the user that got searched in the search/dm feature
     public int i;
     JPanel panel;
     String clickedName;
@@ -35,11 +41,6 @@ public class Messagelist extends JFrame {
     JTextField txtSearch;
     JButton btnSearch;
     JButton btnDelete;
-
-
-    private static String searchedUser; // to see the user that got searched in the search/dm feature
-
-
     // background pane
     private JPanel contentPane;
 
@@ -96,8 +97,14 @@ public class Messagelist extends JFrame {
 
 
                 }
-
-                repaint();
+                
+               if (!ReceiverFromUser.errorLog.equals("")) {
+            	   JOptionPane.showMessageDialog(
+                           null, ReceiverFromUser.errorLog + "\nThe program will now exit", "Error", JOptionPane.ERROR_MESSAGE);
+            	   System.exit(0);
+               }
+                
+               
             }
 
         };

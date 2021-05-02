@@ -30,9 +30,14 @@ import java.awt.event.ActionEvent;
  * <p>
  * a list of your sources of help (if any)
  *
+ * https://www.codota.com/code/java/classes/javax.swing.border.TitledBorder
+ * https://www.guru99.com/java-swing-gui.html
+ * https://www3.ntu.edu.sg/home/ehchua/programming/java/j4a_gui.html
+ *
  * @author Project 5 group
  * @version 4/29/2021
  */
+
 public class Signup extends JFrame {
 
     static String[] array;
