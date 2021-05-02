@@ -12,16 +12,25 @@
 
 ### Class Description for the client:
 
+Write stuff here
+
+### Testing done on the client:
+
+Write stuff here
 
 ### Class Description for the server:
 
-```ChatServer.java``` This class contains main method for the server. All the methods include
+```ChatServer.java``` This class contains main method for the server. All the methods include create a group, check login credentials, delete an account, give the lists of users to the client, change username and password, broadcast messages, load and write file to server as well as clients.
 
-```UserThread.java``` This class is a class that runs parallel with the chat server. It is a runnable. All the methods include
+```UserThread.java``` This class is a class that runs parallel with the chat server. It is a runnable. All the methods include add the usernames to the list, listens to what the client response and decide appropriate actions. 
 
 ```Users.java``` This class contains the data for all the users.
 
 ```Group.java``` This class contains the data for all the groups that a user is in.
+
+### Testing done on the server 
+
+Write stuff here
 
 ## Server:
 
