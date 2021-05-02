@@ -64,7 +64,7 @@ public class Login extends JFrame {
         		Matcher matcher = pattern.matcher(txt_username.getText());
         		boolean specichar = matcher.find();
 
-        		if (!specichar && txt_username.getText().indexOf(' ') >= 0) {
+        		if (!specichar && !txt_username.getText().contains(" ")) {
         			verifyServer();
         			//creating object of messagelist class
         			try {
