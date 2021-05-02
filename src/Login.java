@@ -26,6 +26,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
 /**
@@ -57,28 +59,37 @@ public class Login extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (e.getSource() == btn_login) {
-                verifyServer();
-                //creating object of messagelist class
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                if (ReceiverFromUser.in) {
-                    ReceiverFromUser.myUsername = txt_username.getText();
-                    ReceiverFromUser.mypassword = String.valueOf(txt_password.getPassword());
-                    Messagelist obj = new Messagelist();
+        	if (e.getSource() == btn_login) {
+        		Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+        		Matcher matcher = pattern.matcher(txt_username.getText());
+        		boolean specichar = matcher.find();
 
-                    obj.setVisible(true);
-                    //close current gui
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(
-                            null, "Wrong password or username", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+        		if (!specichar && txt_username.getText().indexOf(' ') >= 0) {
+        			verifyServer();
+        			//creating object of messagelist class
+        			try {
+        				Thread.sleep(1000);
+        			} catch (InterruptedException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+        			if (ReceiverFromUser.in) {
+        				ReceiverFromUser.myUsername = txt_username.getText();
+        				ReceiverFromUser.mypassword = String.valueOf(txt_password.getPassword());
+        				Messagelist obj = new Messagelist();
+
+        				obj.setVisible(true);
+        				//close current gui
+        				dispose();
+        			} else {
+        				JOptionPane.showMessageDialog(
+        						null, "Wrong password or username", "Error", JOptionPane.ERROR_MESSAGE);
+        			}
+        		} else {
+        			JOptionPane.showMessageDialog(
+        					null, "Username should not contain any special character or space", "Error", JOptionPane.ERROR_MESSAGE);
+        		}
+        	}
         }
     };
 

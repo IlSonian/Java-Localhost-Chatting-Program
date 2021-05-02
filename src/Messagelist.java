@@ -74,14 +74,17 @@ public class Messagelist extends JFrame {
         DefaultListModel<String> model = new DefaultListModel<>();
         for (String s : (ReceiverFromUser.getAllUsers())) {
 
-            model.addElement(s);
+            model.addElement(s.replace("$", ""));
+
         }
 
         userlist = new JList(model);
         if (ReceiverFromUser.removedList.size() > 0)
             ReceiverFromUser.removedList.remove("____");
-        else 
-        	ReceiverFromUser.removedList.add("____");
+        else
+            ReceiverFromUser.removedList.add("____");
+
+
         // creating list that will contain all users
         ActionListener animation = new ActionListener() {
             @Override
@@ -98,7 +101,7 @@ public class Messagelist extends JFrame {
             }
 
         };
-        Timer timer = new Timer(1000, animation);
+        Timer timer = new Timer(5000, animation);
         timer.start();
 
         //creates a Mouse Listener if the user gets clicked on
@@ -107,18 +110,27 @@ public class Messagelist extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() > 0) {
                     clickedName = (String) userlist.getSelectedValue();
-                    System.out.println(userlist.getSelectedValue());
+                    System.out.println(userlist.getSelectedValue()); // prints the username clicked
                     String grouppy = (String) userlist.getSelectedValue();
-                    if (grouppy != null)
+
+                    if (grouppy != null && userlist.getSelectedValue() != null && !grouppy.equals("") && !grouppy.equals(" ")) {
                         if (grouppy.substring(0, 1).equals("{")) {
                             grouppy = grouppy.replace("{", "[");
                             grouppy = grouppy.replace("}", "]");
                             grouppy = grouppy.replace(";", ",");
 
                         }
-                    Chat chat = new Chat(grouppy);
-                    chat.setVisible(true);
-                    dispose();
+                    } else {
+                        grouppy = "_";
+                    }
+                    if (clickedName != null && clickedName.equals("Loading...")) {
+                        return;
+                    }
+                    if (!grouppy.equals("_")) {
+                        Chat chat = new Chat(grouppy);
+                        chat.setVisible(true);
+                        dispose();
+                    }
 
                 }
             }
@@ -175,9 +187,9 @@ public class Messagelist extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 searchedUser = txtSearch.getText();
                 ReceiverFromUser.removedList.add(searchedUser);
-                
+
                 ReceiverFromUser.removedList.remove("____");
-                
+
                 OutputStream output;
                 try {
                     output = ReceiverFromUser.socket.getOutputStream();
