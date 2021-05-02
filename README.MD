@@ -1,7 +1,7 @@
 ## Project: 
    + Duong Dinh submits the report 
    + Saif Alkhoori submits the source code on vocareum
-
+   + Erik Christopher Ohst submits the presentation
 
 ### Class Description for the client:
 
