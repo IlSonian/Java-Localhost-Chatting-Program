@@ -71,7 +71,15 @@
   
 ```Signup.java```
 
-- Write something here.
+- Receive the username and password from the user and checks two things:
+  1. Checks if the username entered is valid (doesn't have any special characters)
+  2. Checks if the username enters already exists in the server
+  
+- If everything passes the checks made, the Messagelist GUI will be displayed.
+
+- If the user clicks login, then he would simply go back to the login gui.
+
+- The availability of the username is checked by 
   
 ```ListenServer.java```
 
