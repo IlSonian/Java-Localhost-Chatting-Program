@@ -1,16 +1,11 @@
 ## Project: 
    + Duong Dinh submits the report 
-   +            submits the source code on vocareum
+   + Saif Alkhoori submits the source code on vocareum
 
-
-
-   
 
 ### Class Description for the client:
 
 ```Login.java```
-
-****
 
 - Makes sure that the program is connected to the default server
 
@@ -26,8 +21,6 @@
 
 ```Messagelist.java```
 
-****
-
 - Contains all existing users on a DefaultListModel.
 
 - Any user clicked once from the Messagelist.java will open the chat window with that user.
@@ -40,9 +33,7 @@
 
 - The create group button will open a new window to create a group
 
-```Chat.java```:
-
-****
+```Chat.java```
 
 - A total of 5 buttons on the GUI and a scrollable chat area.
 
@@ -57,8 +48,6 @@
 
 ```createGroup.java```
 
-****
-
 - Once the create group button is clicked in the Messagelist GUI, the createGroup window is opened.
 
 - The window will practically have the same look as the `Messagelist.java` as I found it the most efficient way to do
@@ -70,8 +59,6 @@
   the group neatly organized by brackets and semi-colons. The group will be added to the Messagelist from here.
 
 ```Account.java```
-
-****
 
 - Offers the user the capability of changing his username by changing the name in the textfield and clicking on the edit
   button. It also checks if the user already exists in the server to avoid unnecessary errors.
@@ -90,15 +77,9 @@
   
 ```ListenServer.java```
 
-****
-
 - This class is a thread which runs parallel with the program. This class listen to what servers send and notify the chat client.
 
-
-
 ```ReveiverFromUser.java```
-
-****
 
 - This class basically to stores data and static variables. The point of the class is to store variable where every class have
 access to and update the variables if there are any changes. A few data stored there include the sockets, the user's username and password, and parsing the list of current users on the server.
