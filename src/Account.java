@@ -1,17 +1,13 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Font;
-import java.awt.GridLayout;
-import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
-import java.awt.Color;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.awt.event.ActionEvent;
 
 /**
  * Account.java
@@ -25,15 +21,9 @@ import java.awt.event.ActionEvent;
  */
 public class Account extends JFrame {
 
-    // main background pane
-    private JPanel contentPane;
-    String[] array;
     JButton editbutton;
     JButton editbutton2;
-    JButton change;
-
     JButton deleteAccount;
-
     JButton btnImport;
     JTextField usernametext;
     JTextField newUsernameTxt;
@@ -52,7 +42,6 @@ public class Account extends JFrame {
                     PrintWriter writer = new PrintWriter(output, true);
                     writer.println("!#" + usernametext.getText());
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
                 String olduser = ReceiverFromUser.myUsername;
@@ -71,7 +60,6 @@ public class Account extends JFrame {
                     PrintWriter writer = new PrintWriter(output, true);
                     writer.println("!!");
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
 
@@ -89,7 +77,6 @@ public class Account extends JFrame {
                         PrintWriter writer = new PrintWriter(output, true);
                         writer.println("$#" + nptext.getText());
                     } catch (IOException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
 
@@ -100,11 +87,10 @@ public class Account extends JFrame {
                 }
 
             }
-            if (e.getSource() == btnImport) {
-
-            }
         }
     };
+    // main background pane
+    private JPanel contentPane;
 
 
     public Account() {
@@ -123,7 +109,9 @@ public class Account extends JFrame {
 
         // creating title pane
         JPanel panel = new JPanel();
-        panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Account", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+        panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED,
+                new Color(255, 255, 255), new Color(160, 160, 160)),
+                "Account", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 
         //setting x,y axis and width and height of title pane
         panel.setBounds(172, 68, 395, 230);
@@ -195,7 +183,7 @@ public class Account extends JFrame {
         //setting x,y axis and width and height of back button
         backbutton.setBounds(74, 138, 224, 33);
 
-        //adding buttton to title panel
+        //adding button to title panel
         panel.add(backbutton);
 
         // create edit button
@@ -211,23 +199,5 @@ public class Account extends JFrame {
         panel.add(editbutton);
         panel.add(editbutton2);
 
-        // creating export button
-        btnImport = new JButton("Import");
-        btnImport.addActionListener(actionListener);
-        // adding action of import button
-		/*
-        btnImport.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // cereating object of chat class
-                //Chat obj = new Chat();
-               // obj.setVisible(true);
-                // close current GUI
-                dispose();
-            }
-        });*/
-        //setting x,y axis and width and height of button import
-        btnImport.setBounds(256, 187, 129, 33);
-        //adding import button to title panel
-        panel.add(btnImport);
     }
 }
